@@ -1,0 +1,246 @@
+{
+  "smartQueues": {
+    "XaD25rPCvp": {
+      "waitingTime": 16440.81728911699,
+      "handlingTime": 16536.43795643648,
+      "total": { "count": 5, "noshowCount": 2 },
+      "services": { "CLZfDXQMvV": 4, "qgD7GuauVd": 1 }
+    },
+    "htMbl8zDt3": {
+      "waitingTime": 152852.25182082722,
+      "handlingTime": 155182.6613569427,
+      "total": { "count": 68, "noshowCount": 26 },
+      "services": {
+        "Bd9E33IRLR": 4,
+        "PyMbBNsHP7": 48,
+        "mM20G8iSR1": 3,
+        "RAAlNhJmFd": 3,
+        "9Hnq9Rw4zr": 5,
+        "qgD7GuauVd": 4,
+        "CLZfDXQMvV": 1
+      }
+    },
+    "ie7svVpep4": {
+      "waitingTime": 1531.5439568534994,
+      "handlingTime": 4314.38228020755,
+      "total": { "count": 1, "noshowCount": 1 },
+      "services": { "9Hnq9Rw4zr": 1 }
+    }
+  },
+  "services": {
+    "CLZfDXQMvV": 5,
+    "qgD7GuauVd": 5,
+    "Bd9E33IRLR": 4,
+    "PyMbBNsHP7": 48,
+    "mM20G8iSR1": 3,
+    "RAAlNhJmFd": 3,
+    "9Hnq9Rw4zr": 6
+  },
+  "agents": {
+    "7e11c8f8-84da-4835-b0e4-26715baf3931": 55,
+    "43f728dc-c8dd-4c7b-bc04-b8adca42215b": 17,
+    "5f38e5d1-cb45-4a4e-9caf-6fd813728e38": 1,
+    "RIGHTBOT": 1
+  },
+  "waitingTime": 170824.61306679773,
+  "handlingTime": 176033.4815935867,
+  "activeTickets": [
+    {
+      "id": "JCiMlcHEul",
+      "waitingTime": 3547.1499246430894,
+      "handlingTime": 732.4640939332331,
+      "service": "CLZfDXQMvV",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "XaD25rPCvp"
+    },
+    {
+      "id": "52nHlEde0B",
+      "waitingTime": 4170.202931111229,
+      "handlingTime": 2900.207231190378,
+      "service": "Bd9E33IRLR",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "SIEJu6OpNc",
+      "waitingTime": 5196.038907690283,
+      "handlingTime": 614.7460436021782,
+      "service": "Bd9E33IRLR",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "oFAPq1M1MJ",
+      "waitingTime": 4613.418492193201,
+      "handlingTime": 1841.7082903967687,
+      "service": "Bd9E33IRLR",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "Zm4oSmpOvY",
+      "waitingTime": 4781.879828650588,
+      "handlingTime": 663.2891782240638,
+      "service": "qgD7GuauVd",
+      "smartQueue": "XaD25rPCvp"
+    },
+    {
+      "id": "J0c6LwR9je",
+      "waitingTime": 3221.5916304279076,
+      "handlingTime": 481.22599391424745,
+      "service": "PyMbBNsHP7",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "YEO7gdCQkx",
+      "waitingTime": 5014.394071494954,
+      "handlingTime": 2819.5602586662594,
+      "service": "PyMbBNsHP7",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "tDyaUKJ1FL",
+      "waitingTime": 3274.8716930012765,
+      "handlingTime": 774.9781602376852,
+      "service": "Bd9E33IRLR",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "GNJ7b5Jaav",
+      "waitingTime": 1922.5139097398567,
+      "handlingTime": 1724.299294164502,
+      "service": "Bd9E33IRLR",
+      "agent": "5f38e5d1-cb45-4a4e-9caf-6fd813728e38",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "AcwWA8YdJE",
+      "waitingTime": 3380.268603232993,
+      "handlingTime": 4463.978141335393,
+      "service": "Bd9E33IRLR",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "EpXlCt4ips",
+      "waitingTime": 3292.340172981727,
+      "handlingTime": 1738.3060117712357,
+      "service": "PyMbBNsHP7",
+      "agent": "7846a85c-dd88-4629-a5aa-fc205da5c727",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "nUZaeyUThG",
+      "waitingTime": 4870.29097678813,
+      "handlingTime": 2519.4965752895773,
+      "service": "PyMbBNsHP7",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "Hu6Ii5ZtLe",
+      "waitingTime": 286.6428178016681,
+      "handlingTime": 2545.5524088075986,
+      "service": "PyMbBNsHP7",
+      "agent": "43f728dc-c8dd-4c7b-bc04-b8adca42215b",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "nT0X3FaY5t",
+      "waitingTime": 637.2133813154015,
+      "handlingTime": 2853.2904915226973,
+      "service": "PyMbBNsHP7",
+      "agent": "43f728dc-c8dd-4c7b-bc04-b8adca42215b",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "rCLCX8wJdI",
+      "waitingTime": 1049.9111616873238,
+      "handlingTime": 3948.346723971822,
+      "service": "qgD7GuauVd",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "htMbl8zDt3"
+    },
+    {
+      "id": "lKEZZ1HIXV",
+      "waitingTime": 381.2207960377325,
+      "handlingTime": 950.5527812335542,
+      "service": "mM20G8iSR1",
+      "smartQueue": "ie7svVpep4"
+    },
+    {
+      "id": "jMIGqCuVCX",
+      "waitingTime": 4619.137053481308,
+      "handlingTime": 407.85863518281883,
+      "service": "RAAlNhJmFd",
+      "smartQueue": "ie7svVpep4"
+    },
+    {
+      "id": "dFPxllHDhH",
+      "waitingTime": 2156.592401196562,
+      "handlingTime": 1710.539315782591,
+      "service": "RAAlNhJmFd",
+      "smartQueue": "ie7svVpep4"
+    },
+    {
+      "id": "cmSpSFQdhh",
+      "waitingTime": 3350.5076443944754,
+      "handlingTime": 4345.106319213656,
+      "service": "mM20G8iSR1",
+      "smartQueue": "ie7svVpep4"
+    },
+    {
+      "id": "6EBI2dAipv",
+      "waitingTime": 4056.86905253341,
+      "handlingTime": 4937.734860392449,
+      "service": "mM20G8iSR1",
+      "smartQueue": "ie7svVpep4"
+    },
+    {
+      "id": "xJwWkqHzKM",
+      "waitingTime": 790.0753548918129,
+      "handlingTime": 4179.168967060706,
+      "service": "RAAlNhJmFd",
+      "smartQueue": "ie7svVpep4"
+    },
+    {
+      "id": "0sXidv3pyq",
+      "waitingTime": 487.06391753605686,
+      "handlingTime": 1934.273014694165,
+      "service": "mM20G8iSR1",
+      "smartQueue": "ie7svVpep4"
+    },
+    {
+      "id": "YmtQCTiT5D",
+      "waitingTime": 8.840461312527337,
+      "handlingTime": 1064.1461683902694,
+      "service": "RAAlNhJmFd",
+      "smartQueue": "ie7svVpep4"
+    },
+    {
+      "id": "3HMZUOPlQw",
+      "waitingTime": 2693.124243925604,
+      "handlingTime": 5180.935937555996,
+      "service": "mM20G8iSR1",
+      "smartQueue": "ie7svVpep4"
+    },
+    {
+      "id": "kzT3TA29Z1",
+      "waitingTime": 3289.120204949137,
+      "handlingTime": 2742.2231554308346,
+      "service": "mM20G8iSR1",
+      "smartQueue": "ie7svVpep4"
+    },
+    {
+      "id": "d80JujNWoy",
+      "waitingTime": 4305.7987084170645,
+      "handlingTime": 4262.780485756951,
+      "service": "RAAlNhJmFd",
+      "smartQueue": "ie7svVpep4"
+    }
+  ],
+  "handledTickets": []
+}

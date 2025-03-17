@@ -1,0 +1,14 @@
+{
+  "smartQueues": {
+    "wpzBpynhmFsm2": {
+      "waitingTime": 4719.906468141003,
+      "handlingTime": 5088.317072871961,
+      "total": { "count": 1, "noshowCount": 0 },
+      "services": { "D5PXYsoNuD33": 1 }
+    }
+  },
+  "services": { "D5PXYsoNuD33": 1 },
+  "agents": { "cdb54dfb-d88c-45a6-9817-fabc729ec178": 1 },
+  "waitingTime": 4719.906468141003,
+  "handlingTime": 5088.317072871961
+}
