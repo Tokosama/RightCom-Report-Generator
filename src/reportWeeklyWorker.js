@@ -1,18 +1,17 @@
 const { getISOWeek } = require("date-fns");
-const tickets = require("./tickets.json");
+const tickets = require("../tickets.json");
 const fs = require("fs");
 const moment = require("moment");
 
 const {
-  saveToDb,
+  saveToFile,
   getWaitingTime,
   getHandlingTime,
   getReportWeeklyData,
   handledWaitingServiceTimeDistribution,
-} = require("./utils/utils.js");
+} = require("../utils/utils.js");
 
 async function reportWeeklyWorker(ticket) {
-
   const { status, objectId: ticketId } = ticket;
 
   const currentWeek = getISOWeek(new Date());
@@ -146,8 +145,6 @@ async function reportWeeklyWorker(ticket) {
     //     moreThanThirty: [],
     //   };
 
-
-
     //--------
     if (
       data.activeTickets.find((activeTicket) => activeTicket.id === ticketId)
@@ -215,7 +212,7 @@ async function reportWeeklyWorker(ticket) {
     // }
   }
 
-  await saveToDb(`week-${currentWeek}`, data);
+  await saveToFile(`week-${currentWeek}`, data);
 }
 
 async function processTickets() {
@@ -223,5 +220,4 @@ async function processTickets() {
     await reportWeeklyWorker(ticket);
   }
 }
-
-processTickets();
+-processTickets();

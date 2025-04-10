@@ -1,8 +1,8 @@
 const fs = require("fs");
 const {} = require("date-fns");
-const { calculateTime } = require("./utils/utils.js"); //
+const { calculateTime } = require("../utils/utils.js"); //
 const moment = require("moment");
-const { saveToDb } = require("./utils/utils.js");
+const { saveToFile } = require("../utils/utils.js");
 const currentDate = moment().format("DD_MM_YYYY");
 const dailyReport = require(`./reportData/${currentDate}.json`);
 
@@ -42,6 +42,25 @@ async function generateDailyReport(data) {
     }
     //
     data.services[ticketService] = (data.services[ticketService] || 0) + 1;
+    //----------------------------------------------------
+
+    //---------------------------------------------------
+    //---------------------------------------------------
+
+    data.services[ticketService] = data.services[ticketService] || {
+      id: ticketService,
+      name: ticketName,
+      ticket: 0,
+    };
+
+    data.services[ticketService].ticket =
+      data.services[ticketService].ticket + 1;
+
+    //---------------------------------------------------
+
+    //---------------------------------------------------
+
+    //---------------------------------------------------
     if (typeof ticketAgent == "string") {
       if (data.agents[ticketAgent]) {
         data.agents[ticketAgent] = (data.agents[ticketAgent] || 0) + 1;
@@ -81,7 +100,7 @@ async function generateDailyReport(data) {
   delete data["activeTickets"];
   delete data["handledTickets"];
 
-  saveToDb(`${currentDate}-final`, data);
+  saveToFile(`${currentDate}-final`, data);
 }
 
 generateDailyReport(dailyReport);

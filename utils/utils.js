@@ -1,8 +1,10 @@
 const fs = require("fs");
+
+const { readData, saveDataToDb } = require("../lib/leveldb");
 const moment = require("moment");
 const { differenceInMinutes } = require("date-fns");
 
-async function saveToDb(day, payload) {
+async function saveToFile(day, payload) {
   return new Promise((resolve) => {
     //    console.log(JSON.stringify(payload));
     fs.writeFileSync(`reportData/${day}.json`, JSON.stringify(payload));
@@ -10,12 +12,26 @@ async function saveToDb(day, payload) {
   });
 }
 function getWaitingTime(ticket) {
-  return 0;
+  return 20;
 }
 
 function getHandlingTime(ticket) {
-  return 0
- // return Math.random() * 5256;
+  return 20;
+  // return Math.random() * 5256;
+}
+async function getDailyReportDataFromDb(key) {
+  console.log(key);
+  const data = await readData(key);
+  if (!data) {
+    await saveDataToDb(key, {});
+    console.log("No data");
+    getDailyReportDataFromDb(key);
+    return;
+  } else {
+    console.log(data);
+  }
+
+  return data;
 }
 
 async function getReportDailyData(day) {
@@ -60,10 +76,7 @@ function handledWaitingServiceTimeDistribution(
   waitingServiceTimeDistribution,
   type
 ) {
-  removeTicketFromDistribution(
-    ticket.objectId,
-    waitingServiceTimeDistribution
-  );
+  removeTicketFromDistribution(ticket.objectId, waitingServiceTimeDistribution);
   let time;
   if (type == 0) {
     time = getWaitingTime(ticket);
@@ -89,15 +102,16 @@ function calculateTime(lastUpdatedAt) {
   const now = new Date();
 
   const minutesDiff = differenceInMinutes(now, new Date(lastUpdatedAt));
-  return minutesDiff
+  return minutesDiff;
 }
 module.exports = {
-  saveToDb,
+  saveToFile,
   getWaitingTime,
   getHandlingTime,
   getReportDailyData,
   getReportWeeklyData,
   getReportMonthlyData,
   handledWaitingServiceTimeDistribution,
+  getDailyReportDataFromDb,
   calculateTime,
 };

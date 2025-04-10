@@ -1,18 +1,17 @@
 const { getMonth } = require("date-fns");
-const tickets = require("./tickets.json"); // Importer directement
+const tickets = require("../tickets.json"); // Importer directement
 const fs = require("fs");
 const moment = require("moment");
 
 const {
-  saveToDb,
+  saveToFile,
   getWaitingTime,
   getHandlingTime,
   getReportMonthlyData,
   handledWaitingServiceTimeDistribution,
-} = require("./utils/utils.js");
+} = require("../utils/utils.js");
 
 async function reportMonthlyWorker(ticket) {
-
   const { status, objectId: ticketId } = ticket;
 
   const currentMonth = getMonth(new Date()) + 1;
@@ -213,7 +212,7 @@ async function reportMonthlyWorker(ticket) {
     // }
   }
 
-  await saveToDb(`month-${currentMonth}`, data);
+  await saveToFile(`month-${currentMonth}`, data);
 }
 
 async function processTickets() {

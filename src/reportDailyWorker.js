@@ -1,18 +1,24 @@
-const tickets = require("./tickets.json"); // Importer directement
+const tickets = require("../tickets.json"); // Importer directement
 
 const fs = require("fs");
 const moment = require("moment");
 const {
-  saveToDb,
+  saveToFile,
   getWaitingTime,
   getHandlingTime,
   getReportDailyData,
-} = require("./utils/utils.js");
+  getDailyReportDataFromDb,
+} = require("../utils/utils.js");
+
+const { saveDataToDb } = require("../lib/leveldb.js");
 
 async function reporDailytWorker(ticket) {
   const { status, objectId: ticketId } = ticket;
 
   const currentDate = moment().format("DD_MM_YYYY");
+  //getDailyReportDataFromDb
+  //let data = (await getDailyReportDataFromDb(currentDate)) || {};
+
   let data = (await getReportDailyData(currentDate)) || {};
 
   if (["NOSHOW", "CLOSED"].includes(status)) {
@@ -79,7 +85,7 @@ async function reporDailytWorker(ticket) {
         agent: ticket.agent,
         smartQueue: ticket.smartQueue,
         status: ticket.status,
-        lastUpdatedAt:ticket.statusUpdatedAt.iso
+        lastUpdatedAt: ticket.statusUpdatedAt.iso,
         // events: ticket.ticketEvents,
       });
     } else {
@@ -92,7 +98,7 @@ async function reporDailytWorker(ticket) {
         agent: ticket.agent,
         smartQueue: ticket.smartQueue,
         status: ticket.status,
-        lastUpdatedAt:ticket.statusUpdatedAt.iso
+        lastUpdatedAt: ticket.statusUpdatedAt.iso,
 
         // events: ticket.ticketEvents,
       });
@@ -119,7 +125,8 @@ async function reporDailytWorker(ticket) {
     }
   }
 
-  await saveToDb(currentDate, data);
+  //await saveDataToDb(currentDate, data);
+  await saveToFile(currentDate, data);
 }
 
 async function processTickets() {

@@ -1,0 +1,47 @@
+{
+  "smartQueues": {
+    "XaD25rPCvp": {
+      "waitingTime": 100,
+      "handlingTime": 100,
+      "total": { "count": 5, "noshowCount": 2 },
+      "services": { "CLZfDXQMvV": 4, "qgD7GuauVd": 1 }
+    }
+  },
+  "services": { "CLZfDXQMvV": 4, "qgD7GuauVd": 1 },
+  "agents": { "7e11c8f8-84da-4835-b0e4-26715baf3931": 5 },
+  "waitingTime": 100,
+  "handlingTime": 100,
+  "activeTickets": [
+    {
+      "id": "JCiMlcHEul",
+      "waitingTime": 20,
+      "handlingTime": 20,
+      "service": "CLZfDXQMvV",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "XaD25rPCvp",
+      "status": "CALLED",
+      "lastUpdatedAt": "2025-01-27T14:25:13.327Z"
+    },
+    {
+      "id": "52nHlEde0B",
+      "waitingTime": 20,
+      "handlingTime": 20,
+      "service": "Bd9E33IRLR",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "htMbl8zDt3",
+      "status": "ONHOLD",
+      "lastUpdatedAt": "2025-01-22T15:45:33.689Z"
+    },
+    {
+      "id": "SIEJu6OpNc",
+      "waitingTime": 20,
+      "handlingTime": 20,
+      "service": "Bd9E33IRLR",
+      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
+      "smartQueue": "htMbl8zDt3",
+      "status": "ONHOLD",
+      "lastUpdatedAt": "2025-01-23T11:00:17.444Z"
+    }
+  ],
+  "handledTickets": []
+}

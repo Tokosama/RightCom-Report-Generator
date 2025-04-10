@@ -1,17 +1,17 @@
 const { getISOWeek } = require("date-fns");
-const { calculateTime } = require("./utils/utils.js"); //
+const { calculateTime } = require("../utils/utils.js"); //
 
 const currentWeek = getISOWeek(new Date());
 
 const weeklyReport = require(`./reportData/week-${currentWeek}.json`);
 
 const {
-  saveToDb,
+  saveToFile,
   getWaitingTime,
   getHandlingTime,
   getReportDailyData,
   handledWaitingServiceTimeDistribution,
-} = require("./utils/utils.js");
+} = require("../utils/utils.js");
 function generateWeeklyReport(data) {
   // if(!data.smartQueues) data.smartQueues ={}
   // if(!data.services) data.services ={}
@@ -124,7 +124,7 @@ function generateWeeklyReport(data) {
   }
   delete data["activeTickets"];
   delete data["handledTickets"];
-  saveToDb(`week-${currentWeek}-final`, data);
+  saveToFile(`week-${currentWeek}-final`, data);
 }
 
 generateWeeklyReport(weeklyReport);

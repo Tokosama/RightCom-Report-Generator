@@ -1,17 +1,17 @@
 const { getMonth } = require("date-fns");
-const { calculateTime } = require("./utils/utils.js"); //
+const { calculateTime } = require("../utils/utils.js"); //
 
 const currentMonth = getMonth(new Date()) + 1;
 
 const monthlyReport = require(`./reportData/month-${currentMonth}.json`);
 
 const {
-  saveToDb,
+  saveToFile,
   getWaitingTime,
   getHandlingTime,
   getReportDailyData,
   handledWaitingServiceTimeDistribution,
-} = require("./utils/utils.js");
+} = require("../utils/utils.js");
 function generateMonthlyReport(data) {
   // if(!data.smartQueues) data.smartQueues ={}
   // if(!data.services) data.services ={}
@@ -124,7 +124,7 @@ function generateMonthlyReport(data) {
   }
   delete data["activeTickets"];
   delete data["handledTickets"];
-  saveToDb(`month-${currentMonth}-final`, data);
+  saveToFile(`month-${currentMonth}-final`, data);
 }
 
 generateMonthlyReport(monthlyReport);
