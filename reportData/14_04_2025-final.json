@@ -1,0 +1,77 @@
+{
+  "smartQueues": {
+    "XaD25rPCvp": {
+      "waitingTime": 111117,
+      "handlingTime": 120,
+      "total": { "count": 6, "closed": 3, "noshow": 0, "noshowCount": 1 },
+      "services": {
+        "CLZfDXQMvV": {
+          "name": "vente de fleurs",
+          "waitingTime": 111097,
+          "handlingTime": 100,
+          "total": { "count": 5, "closed": 2, "noshow": 2 }
+        },
+        "qgD7GuauVd": {
+          "name": "vente de parfums",
+          "waitingTime": 20,
+          "handlingTime": 20,
+          "total": { "count": 1, "closed": 1, "noshow": 0 }
+        }
+      },
+      "agents": {
+        "7e11c8f8-84da-4835-b0e4-26715baf3931": {
+          "name": "Yessirine Aurédia ADEBINKPE",
+          "handlingTime": 120,
+          "total": { "count": 6, "noshow": 2, "closed": 3 }
+        }
+      },
+      "name": "Smart senteurs"
+    },
+    "htMbl8zDt3": {
+      "waitingTime": 118157,
+      "handlingTime": 40,
+      "total": { "count": 2, "closed": 1, "noshow": 0 },
+      "services": {
+        "Bd9E33IRLR": {
+          "name": "vente robes",
+          "waitingTime": 118157,
+          "handlingTime": 40,
+          "total": { "count": 2, "closed": 1, "noshow": 0 }
+        }
+      },
+      "agents": {
+        "7e11c8f8-84da-4835-b0e4-26715baf3932": {
+          "name": "Toko Sama",
+          "handlingTime": 20,
+          "total": { "count": 1, "closed": 1 }
+        },
+        "7e11c8f8-84da-4835-b0e4-26715baf3931": {
+          "name": "Yessirine Aurédia ADEBINKPE",
+          "handlingTime": 20,
+          "total": { "count": 1 }
+        }
+      },
+      "name": "Smart vêtements"
+    }
+  },
+  "services": {
+    "CLZfDXQMvV": { "name": "vente de fleurs", "total": 5 },
+    "qgD7GuauVd": { "name": "vente de parfums", "total": 1 },
+    "Bd9E33IRLR": { "name": "vente robes", "total": 2 }
+  },
+  "agents": {
+    "7e11c8f8-84da-4835-b0e4-26715baf3931": {
+      "name": "Yessirine Aurédia ADEBINKPE",
+      "total": 7
+    },
+    "7e11c8f8-84da-4835-b0e4-26715baf3932": { "name": "Toko Sama", "total": 1 }
+  },
+  "waitingTime": 229274,
+  "handlingTime": 160,
+  "longestWaitingTime": {
+    "customerName": "Yessirine AurédiaADEBINKPE",
+    "custormerEmail": null,
+    "waitingTime": 118137,
+    "customerPhone": "+2290140714652"
+  }
+}

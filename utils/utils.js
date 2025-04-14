@@ -104,6 +104,36 @@ function calculateTime(lastUpdatedAt) {
   const minutesDiff = differenceInMinutes(now, new Date(lastUpdatedAt));
   return minutesDiff;
 }
+
+function getYesterdayDate() {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const day = String(yesterday.getDate()).padStart(2, "0");
+  const month = String(yesterday.getMonth() + 1).padStart(2, "0"); // Les mois commencent à 0
+  const year = yesterday.getFullYear();
+
+  return `${day}_${month}_${year}`;
+}
+async function updateLongestWaitingTime(ticketWaitingTime, longestWaitingTime,ticket,customer) {
+  if (ticketWaitingTime >= longestWaitingTime.waitingTime) {
+    console.log("1");
+    longestWaitingTime.ticketId = ticket.objectId;
+    longestWaitingTime.customerName =
+      (customer.firstName || "") + (customer.lastName || "");
+    custormerEmail = customer.email || "";
+    longestWaitingTime.customerPhone = customer.phone;
+    longestWaitingTime.waitingTime = ticketWaitingTime;
+    return longestWaitingTime
+  }
+}
+async function getActiveTicketList(currentData) {
+  const previousDay = getYesterdayDate();
+  const previousData = await getReportDailyData(previousDay);
+  // console.log(previousData.activeTickets);
+  console.log(previousData)
+  return previousData?.activeTickets || null ;
+}
 module.exports = {
   saveToFile,
   getWaitingTime,
@@ -114,4 +144,7 @@ module.exports = {
   handledWaitingServiceTimeDistribution,
   getDailyReportDataFromDb,
   calculateTime,
+  getYesterdayDate,
+  updateLongestWaitingTime,
+  getActiveTicketList,
 };
