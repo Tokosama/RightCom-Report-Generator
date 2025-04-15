@@ -1,6 +1,7 @@
 require("dotenv").config();
 const mqtt = require("mqtt");
-const { reporDailytWorker } = require("./src/reportDailyWorker");
+const { reporDailyWorker } = require("./src/reportDailyWorker");
+const { getTimes } = require("./utils/utils");
 const brokerUrl = process.env.REACT_APP_MQTT_BROKER;
 const client = mqtt.connect(brokerUrl);
 
@@ -21,13 +22,20 @@ client.on("connect", () => {
 let ticketData = null;
 client.on("message", (topic, message) => {
   if (!topic.includes("agent_actions")) {
-    //console.log("**************************************");
+    console.log(
+      "*********************************************************************"
+    );
     ticketData = JSON.parse(message.toString());
-    reporDailytWorker(ticketData);
+    reporDailyWorker(ticketData);
+    console.log(ticketData)
+    // console.log(ticketData)
+    //etTimes(ticketData);
+
     //console.log(ticketData);
     //console.log("topic:", topic);
-    console.log("message:", JSON.parse(message.toString()));
+    // console.log("************************************")
+    // console.log("message:", JSON.parse(message.toString()));
   }
 });
 
-console.log(ticketData);
+//console.log(ticketData);

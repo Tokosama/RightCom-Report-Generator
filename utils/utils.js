@@ -1,8 +1,10 @@
 const fs = require("fs");
+const axios = require("axios");
+require("dotenv").config();
 
 const { readData, saveDataToDb } = require("../lib/leveldb");
 const moment = require("moment");
-const { differenceInMinutes } = require("date-fns");
+const { differenceInMinutes, differenceInSeconds } = require("date-fns");
 
 async function saveToFile(day, payload) {
   return new Promise((resolve) => {
@@ -100,9 +102,8 @@ function handledWaitingServiceTimeDistribution(
 }
 function calculateTime(lastUpdatedAt) {
   const now = new Date();
-
-  const minutesDiff = differenceInMinutes(now, new Date(lastUpdatedAt));
-  return minutesDiff;
+  const secondsDiff = differenceInSeconds(now, new Date(lastUpdatedAt));
+  return secondsDiff;
 }
 
 function getYesterdayDate() {
@@ -115,27 +116,47 @@ function getYesterdayDate() {
 
   return `${day}_${month}_${year}`;
 }
-async function updateLongestWaitingTime(ticketWaitingTime, longestWaitingTime,ticket,customer) {
+async function updateLongestWaitingTime(
+  ticketWaitingTime,
+  longestWaitingTime,
+  ticket,
+  customer
+) {
   if (ticketWaitingTime >= longestWaitingTime.waitingTime) {
-    console.log("1");
     longestWaitingTime.ticketId = ticket.objectId;
     longestWaitingTime.customerName =
       (customer.firstName || "") + (customer.lastName || "");
     custormerEmail = customer.email || "";
     longestWaitingTime.customerPhone = customer.phone;
     longestWaitingTime.waitingTime = ticketWaitingTime;
-    return longestWaitingTime
   }
+  return longestWaitingTime;
 }
 async function getActiveTicketList(currentData) {
   const previousDay = getYesterdayDate();
   const previousData = await getReportDailyData(previousDay);
   // console.log(previousData.activeTickets);
-  console.log(previousData)
-  return previousData?.activeTickets || null ;
+  console.log(previousData);
+  return previousData?.activeTickets || null;
 }
+
+async function getTimes(ticketId, company) {
+  try {
+    console.log(ticketId);
+    const res = await axios.get(
+      `${process.env.TIMES_CALCUL_URL}/readTimes?objectId=${ticketId}&company=${company}`
+    );
+
+    return res.data; // <- ici tu retournes bien la valeur
+  } catch (err) {
+    //console.error(err);
+    return null; // <- en cas d'erreur, retourne null ou un objet vide
+  }
+}
+
 module.exports = {
   saveToFile,
+  getTimes,
   getWaitingTime,
   getHandlingTime,
   getReportDailyData,

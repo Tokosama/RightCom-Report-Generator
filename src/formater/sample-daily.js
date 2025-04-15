@@ -7,16 +7,17 @@ const {
 const moment = require("moment");
 const { saveToFile } = require("../../utils/utils.js");
 const currentDate = moment().format("DD_MM_YYYY");
-const dailyReport = require(`../../reportData/${currentDate}-final.json`);
-
+const dailyReport = require(`../../reportData/15_04_2025-final.json`);
 async function sampleDaily(data) {
   //console.log(data);
   //RateNoshowCount
+
   let totalCount = 0;
   let totalNoShow = 0;
 
   for (const queueId in data.smartQueues) {
     const queue = data.smartQueues[queueId];
+
     if (queue.total) {
       totalCount += queue.total.count || 0;
       totalNoShow += queue.total.noshow || 0;
@@ -146,7 +147,38 @@ async function sampleDaily(data) {
     });
   }
 
-  console.log({ ticketsHandlePerService });
+  //Final Reportttttttt
+
+  const finalReport = {
+    companyAlias: "COMAPNY BETA",
+    today: "Monday 12 August, 2024",
+    avgWaitedTime: formatTime(Math.floor(data.waitingTime / totalCount)),
+    account: "https://company-beta.rightq-beta.rightcomtech.com",
+    year: 2024,
+    rateOfNoShow,
+    summary,
+    averageWaitingTimePerSmartQueue,
+    ticketsPerAgent,
+    ticketsHandlePerService,
+    report_name: "Your Daily Personalized Report - COMAPNY BETA",
+    daily_csv:
+      "https://cdn.rightcomtech.com/api/1.0/download?app_name=rightq&file_id=ec8284cc-8815-4945-abb0-5f4887b2fb00&as_attachment=0",
+    senderEmail: "dev@product.rightcom.com",
+    env: "beta",
+    firstname: "Sabi",
+    lastname: "Anouar",
+    email: "anouartoko@gmail.com",
+    userId: "936b8b19-7681-41ae-9fb5-92545bc078f3",
+    companyId: "company-beta",
+    companyName: "COMAPNY BETA",
+    role: "rightq_admin",
+    language: "en",
+    timeZone: "US/Pacific",
+    xp: "https://company-beta.rightq-beta.rightcomtech.com",
+    feedback: "https://rightcom.com/contact/",
+    expert: "https://rightcom.com/contact/",
+  };
+  console.log(finalReport);
 }
 
 sampleDaily(dailyReport);

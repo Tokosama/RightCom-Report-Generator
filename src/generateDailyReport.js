@@ -1,8 +1,8 @@
 const fs = require("fs");
-const {} = require("date-fns");
 const {
   calculateTime,
   updateLongestWaitingTime,
+  getTimes,
 } = require("../utils/utils.js"); //
 const moment = require("moment");
 const { saveToFile } = require("../utils/utils.js");
@@ -25,9 +25,12 @@ async function generateDailyReport(data) {
 
   for (const ticket of activeTickets) {
     const {
+      id: ticketId,
+      company: company,
       service: ticketService,
       serviceName: ticketServiceName,
       smartQueue: ticketSmartQueue,
+      smartQueueName:ticketSmartQueueName,
       agent: ticketAgent,
       agentName: ticketAgentName,
       waitingTime: ticketWaitingTime,
@@ -39,6 +42,7 @@ async function generateDailyReport(data) {
     // Waiting and Handling time management
     let lastHandlingTime = 0;
     let lastWaitingTime = 0;
+    //Calcul of the Timessss
     if (ticketStatus == "ATTENDING") {
       lastHandlingTime = calculateTime(ticketLastUpdatedAt);
       // console.log(lastHandlingTime);
@@ -46,8 +50,16 @@ async function generateDailyReport(data) {
       lastWaitingTime = calculateTime(ticketLastUpdatedAt);
       // console.log(lastWaitingTime);
     }
-    let fullWaitingTime = ticketWaitingTime + lastWaitingTime;
-    let fullHandlingTime = ticketHandlingTime + lastHandlingTime;
+    const timeData = await getTimes(ticketId, company);
+    let fullWaitingTime = timeData?.waitingTime;
+    let fullHandlingTime = timeData?.handlingTime;
+
+    let fullWaitingTime2 = ticketWaitingTime + lastWaitingTime;
+    let fullHandlingTime2 = ticketHandlingTime + lastHandlingTime;
+    // console.log(timeData?.objectId);
+
+    // console.log(fullWaitingTime);
+    // console.log(lastWaitingTime);
 
     // serviceData
     let serviceData = data.services[ticketService] || {
@@ -73,6 +85,8 @@ async function generateDailyReport(data) {
       customerPhone: null,
       waitingTime: 0,
     };
+    console.log(longestWaitingTime);
+    console.log("********************************************");
 
     longestWaitingTime = await updateLongestWaitingTime(
       fullWaitingTime,
@@ -80,6 +94,7 @@ async function generateDailyReport(data) {
       ticket,
       ticketCustomer
     );
+    console.log(longestWaitingTime);
 
     //data attributions
     data.longestWaitingTime = longestWaitingTime;
@@ -105,7 +120,7 @@ async function generateDailyReport(data) {
 
     data.smartQueues[ticketSmartQueue] = {
       ...data.smartQueues[ticketSmartQueue],
-      name: data.smartQueues[ticketSmartQueue]?.name || ticketSmartQueue,
+      name: data.smartQueues[ticketSmartQueue]?.name || ticketSmartQueueName,
       waitingTime:
         (data.smartQueues[ticketSmartQueue]?.waitingTime || 0) +
         fullWaitingTime,
@@ -122,20 +137,20 @@ async function generateDailyReport(data) {
         [ticketService]: {
           name:
             data.smartQueues[ticketSmartQueue]?.["services"][ticketService]
-              .name || ticketServiceName,
+              ?.name || ticketServiceName,
           waitingTime:
             (data.smartQueues[ticketSmartQueue]?.["services"][ticketService]
-              .waitingTime || 0) + fullWaitingTime,
+              ?.waitingTime || 0) + fullWaitingTime,
           handlingTime:
             (data.smartQueues[ticketSmartQueue]?.["services"][ticketService]
-              .handlingTime || 0) + fullHandlingTime,
+              ?.handlingTime || 0) + fullHandlingTime,
           total: {
             ...data.smartQueues[ticketSmartQueue]?.["services"][ticketService]
               ?.total,
 
             count:
               (data.smartQueues[ticketSmartQueue]?.["services"][ticketService]
-                .total.count || 0) + 1,
+                ?.total.count || 0) + 1,
           },
         },
       },

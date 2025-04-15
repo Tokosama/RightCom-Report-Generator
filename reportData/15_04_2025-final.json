@@ -1,0 +1,63 @@
+{
+  "smartQueues": {
+    "LM7VsFlSdE": {
+      "name": "Smart Chaussures",
+      "waitingTime": 640121,
+      "handlingTime": 898,
+      "total": { "count": 9, "closed": 4, "noshow": 1 },
+      "services": {
+        "3Xq8u9i0jp": {
+          "name": "Vente de pantalons",
+          "waitingTime": 640121,
+          "handlingTime": 898,
+          "total": { "count": 9, "closed": 4, "noshow": 1 }
+        }
+      },
+      "agents": {
+        "04f8163b-b856-4e30-b9b7-507b8c77f29b": {
+          "name": "Sabi OROU",
+          "handlingTime": 898,
+          "total": { "count": 7, "closed": 4, "noshow": 1 }
+        },
+        "": { "name": "", "handlingTime": 0, "total": { "count": 2 } }
+      }
+    },
+    "FB34TTpEeZ": {
+      "waitingTime": 4974,
+      "handlingTime": 0,
+      "total": { "count": 2 },
+      "services": {
+        "G0dn520FBK": {
+          "name": "bétà",
+          "waitingTime": 2606,
+          "handlingTime": 0,
+          "total": { "count": 1 }
+        },
+        "McJcrOj8LAlBgM5u": {
+          "name": "another4-1",
+          "waitingTime": 2368,
+          "handlingTime": 0,
+          "total": { "count": 1 }
+        }
+      },
+      "agents": { "undefined": { "handlingTime": 0, "total": { "count": 2 } } }
+    }
+  },
+  "services": {
+    "3Xq8u9i0jp": { "name": "Vente de pantalons", "total": 9 },
+    "G0dn520FBK": { "name": "bétà", "total": 1 },
+    "McJcrOj8LAlBgM5u": { "name": "another4-1", "total": 1 }
+  },
+  "agents": {
+    "04f8163b-b856-4e30-b9b7-507b8c77f29b": { "name": "Sabi OROU", "total": 7 },
+    "": { "name": "", "total": 2 },
+    "undefined": { "total": 2 }
+  },
+  "waitingTime": 645095,
+  "handlingTime": 898,
+  "longestWaitingTime": {
+    "customerName": "",
+    "custormerEmail": null,
+    "waitingTime": 3907
+  }
+}

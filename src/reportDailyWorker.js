@@ -11,12 +11,19 @@ const {
   getActiveTicketList,
   getYesterdayDateString,
   updateLongestWaitingTime,
+  getTimes,
 } = require("../utils/utils.js");
 
-const { saveDataToDb } = require("../lib/leveldb.js");
-console.log("showwwwwww");
+//const { saveDataToDb } = require("../lib/leveldb.js");
 
-async function reporDailytWorker(ticket) {
+async function reporDailyWorker(ticket) {
+  console.log("lettttttttttttttttttttttttttttttttttttttttt");
+
+  //console.log(ticket);
+  //get Time infos
+  const timeData = await getTimes(ticket.objectId, ticket.company);
+  console.log(timeData);
+
   const { status, objectId: ticketId } = ticket;
 
   const currentDate = moment().format("DD_MM_YYYY");
@@ -32,11 +39,12 @@ async function reporDailytWorker(ticket) {
   } else {
     data = currentData;
   }
+  const ticketWaitingTime = timeData?.waitingTime;
+  const ticketHandlingTime = timeData?.handlingTime;
 
+  // const ticketWaitingTime = getWaitingTime(ticket);
+  // const ticketHandlingTime = getHandlingTime(ticket);
   if (["NOSHOW", "CLOSED"].includes(status)) {
-    const ticketWaitingTime = getWaitingTime(ticket);
-    const ticketHandlingTime = getHandlingTime(ticket);
-
     const { smartQueue, service, agent, names, customer } = ticket;
     if (!data.smartQueues) data.smartQueues = {};
     if (!data.services) data.services = {};
@@ -129,17 +137,12 @@ async function reporDailytWorker(ticket) {
 
     //----------------------------------------------
 
-    console.log("====================================================");
-    console.log(longestWaitingTime);
-
     longestWaitingTime = await updateLongestWaitingTime(
       ticketWaitingTime,
       longestWaitingTime,
       ticket,
       customer
     );
-    console.log("****************************************************");
-    console.log(longestWaitingTime);
 
     data.longestWaitingTime = longestWaitingTime;
 
@@ -147,13 +150,13 @@ async function reporDailytWorker(ticket) {
       serviceQueueData.total.noshow = (serviceQueueData.total?.noshow || 0) + 1;
       agentQueueData.total.noshow = (agentQueueData.total?.noshow || 0) + 1;
 
-      queueData.total.noshowCount = queueData.total.noshowCount + 1;
+      queueData.total.noshow = (queueData.total.noshow || 0) + 1;
     }
     if (status === "CLOSED") {
       serviceQueueData.total.closed = (serviceQueueData.total?.closed || 0) + 1;
       agentQueueData.total.closed = (agentQueueData.total?.closed || 0) + 1;
 
-      queueData.total.closed = queueData.total.closed + 1;
+      queueData.total.closed = (queueData.total.closed || 0) + 1;
     }
     // add agents per smartqueue  and service per smartqueue to the data
     queueData.services[service] = serviceQueueData;
@@ -166,7 +169,7 @@ async function reporDailytWorker(ticket) {
     );
   } else {
     if (!data.activeTickets) data.activeTickets = [];
-    if (!data.handledTickets) data.handledTickets = [];
+    //if (!data.handledTickets) data.handledTickets = [];
 
     // add ticket to the active tickets list  and if exists remove then add again
 
@@ -184,7 +187,9 @@ async function reporDailytWorker(ticket) {
         serviceName: ticket.names.serviceName,
         agent: ticket.agent,
         agentName: ticket.names.agentName,
+        company: ticket.company,
         smartQueue: ticket.smartQueue,
+        smartQueueName: ticket.smartQueueName,
         status: ticket.status,
         lastUpdatedAt: ticket.statusUpdatedAt.iso,
         customer: {
@@ -198,13 +203,15 @@ async function reporDailytWorker(ticket) {
     } else {
       data.activeTickets.push({
         id: ticketId,
-        waitingTime: getWaitingTime(ticket),
-        handlingTime: getHandlingTime(ticket),
+        waitingTime: ticketWaitingTime,
+        handlingTime: ticketHandlingTime,
         service: ticket.service,
         serviceName: ticket.names.serviceName,
         agent: ticket.agent,
         agentName: ticket.names.agentName,
+        company: ticket.company,
         smartQueue: ticket.smartQueue,
+        smartQueueName: ticket.smartQueueName,
         status: ticket.status,
         lastUpdatedAt: ticket.statusUpdatedAt.iso,
         customer: {
@@ -217,37 +224,37 @@ async function reporDailytWorker(ticket) {
       });
     }
 
-    if (status === "ATTENDING") {
-      // add ticket to the handled tickets list
-      if (
-        !data.handledTickets.find(
-          (handledTicket) => handledTicket.id === ticketId
-        )
-      ) {
-        data.handledTickets.push({
-          id: ticketId,
-          waitingTime: getWaitingTime(ticket),
-          handlingTime: getHandlingTime(ticket),
+    // if (status === "ATTENDING") {
+    //   // add ticket to the handled tickets list
+    //   if (
+    //     !data.handledTickets.find(
+    //       (handledTicket) => handledTicket.id === ticketId
+    //     )
+    //   ) {
+    //     data.handledTickets.push({
+    //       id: ticketId,
+    //       waitingTime: ticketWaitingTime,
+    //       handlingTime: ticketHandlingTime,
 
-          service: ticket.service,
-          agent: ticket.agent,
-          smartQueue: ticket.smartQueue,
-          // events: ticket.ticketEvents,
-        });
-      }
-    }
+    //       service: ticket.service,
+    //       agent: ticket.agent,
+    //       smartQueue: ticket.smartQueue,
+    //       // events: ticket.ticketEvents,
+    //     });
+    //   }
+    // }
   }
 
   //await saveDataToDb(currentDate, data);
   await saveToFile(currentDate, data);
 }
 //
-async function processTickets() {
-  for (const ticket of tickets) {
-    await reporDailytWorker(ticket);
-  }
-}
-processTickets();
+// async function processTickets() {
+//   for (const ticket of tickets) {
+//     await reporDailyWorker(ticket);
+//   }
+// }
+// processTickets();
 module.exports = {
-  reporDailytWorker,
+  reporDailyWorker,
 };

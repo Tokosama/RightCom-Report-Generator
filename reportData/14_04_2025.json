@@ -70,42 +70,7 @@
     "waitingTime": 20
   },
   "activeTickets": [
-    {
-      "id": "JCiMlcHEul",
-      "waitingTime": 20,
-      "handlingTime": 20,
-      "service": "CLZfDXQMvV",
-      "serviceName": "vente de fleurs",
-      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
-      "agentName": "Yessirine Aurédia ADEBINKPE",
-      "smartQueue": "XaD25rPCvp",
-      "status": "CALLED",
-      "lastUpdatedAt": "2025-01-27T14:25:13.327Z",
-      "customer": {
-        "firstName": "Yessirine Aurédia",
-        "lastName": "ADEBINKPE",
-        "email": "aurediaadebinkpe@gmail.com",
-        "phone": "+2290140714656"
-      }
-    },
-    {
-      "id": "52nHlEde0B",
-      "waitingTime": 20,
-      "handlingTime": 20,
-      "service": "Bd9E33IRLR",
-      "serviceName": "vente robes",
-      "agent": "7e11c8f8-84da-4835-b0e4-26715baf3931",
-      "agentName": "Yessirine Aurédia ADEBINKPE",
-      "smartQueue": "htMbl8zDt3",
-      "status": "ONHOLD",
-      "lastUpdatedAt": "2025-01-22T15:45:33.689Z",
-      "customer": {
-        "firstName": "Yessirine Aurédia",
-        "lastName": "ADEBINKPE",
-        "email": "aurediaadebinkpe@gmail.com",
-        "phone": "+2290140714652"
-      }
-    }
+    
   ],
   "handledTickets": []
 }
