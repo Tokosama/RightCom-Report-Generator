@@ -1,15 +1,20 @@
-const fs = require("fs");
+const fs = require("fs/promises");
 const axios = require("axios");
 require("dotenv").config();
+const path = require("path");
+const { parse, format } = require("date-fns");
 
 const { readData, saveDataToDb } = require("../lib/leveldb");
 const moment = require("moment");
 const { differenceInMinutes, differenceInSeconds } = require("date-fns");
 
-async function saveToFile(day, payload) {
+async function saveToFile(company, day, payload) {
   return new Promise((resolve) => {
     //    console.log(JSON.stringify(payload));
-    fs.writeFileSync(`reportData/${day}.json`, JSON.stringify(payload));
+    fs.writeFile(
+      `reportData/dailyReport/${company}-${day}.json`,
+      JSON.stringify(payload)
+    );
     resolve();
   });
 }
@@ -36,12 +41,12 @@ async function getDailyReportDataFromDb(key) {
   return data;
 }
 
-async function getReportDailyData(day) {
-  if (!fs.existsSync("reportData")) {
-    fs.mkdirSync("reportData");
+async function getReportDailyData(company, day) {
+  if (!fs.access("reportData/dailyReport")) {
+    fs.writeFile("reportData/dailyReport");
   }
   try {
-    let data = fs.readFileSync(`reportData/${day}.json`);
+    let data = fs.readFileSync(`reportData/dailyReport/${company}-${day}.json`);
     return JSON.parse(data.toString());
   } catch (e) {}
 }
@@ -119,23 +124,24 @@ function getYesterdayDate() {
 async function updateLongestWaitingTime(
   ticketWaitingTime,
   longestWaitingTime,
-  ticket,
+  ticketId,
   customer
 ) {
   if (ticketWaitingTime >= longestWaitingTime.waitingTime) {
-    longestWaitingTime.ticketId = ticket.objectId;
+    longestWaitingTime.ticketId = ticketId;
     longestWaitingTime.customerName =
       (customer.firstName || "") + (customer.lastName || "");
-    custormerEmail = customer.email || "";
-    longestWaitingTime.customerPhone = customer.phone;
+    longestWaitingTime.custormerEmail = customer.email || "";
+    longestWaitingTime.customerPhone = customer.phone || "";
     longestWaitingTime.waitingTime = ticketWaitingTime;
   }
   return longestWaitingTime;
 }
-async function getActiveTicketList(currentData) {
+async function getActiveTicketList(company) {
   const previousDay = getYesterdayDate();
-  const previousData = await getReportDailyData(previousDay);
+  const previousData = await getReportDailyData(company, previousDay);
   // console.log(previousData.activeTickets);
+  console.log("getttttttttttttttttttttttt");
   console.log(previousData);
   return previousData?.activeTickets || null;
 }
@@ -143,15 +149,45 @@ async function getActiveTicketList(currentData) {
 async function getTimes(ticketId, company) {
   try {
     console.log(ticketId);
+    console.log(company);
+
     const res = await axios.get(
       `${process.env.TIMES_CALCUL_URL}/readTimes?objectId=${ticketId}&company=${company}`
     );
 
     return res.data; // <- ici tu retournes bien la valeur
   } catch (err) {
-    //console.error(err);
+    console.error(err);
     return null; // <- en cas d'erreur, retourne null ou un objet vide
   }
+}
+
+async function getAllDailyReports() {
+  try {
+    const directoryPath = path.join(__dirname, "../reportData", "dailyReport");
+    const files = fs.readdir(directoryPath);
+    return files;
+  } catch (err) {
+    console.error("Erreur lors de la lecture du dossier :", err);
+    return [];
+  }
+}
+
+async function convertDate(date) {
+  // Convertir le string en objet Date
+  const parsedDate = parse(date, "dd_MM_yyyy", new Date());
+  // Formater l’objet Date
+  const formatted = format(parsedDate, "EEEE dd MMMM, yyyy");
+  return formatted;
+}
+
+function formatTime(seconds) {
+  // Fonction utilitaire pour formater un temps (en secondes) en "HH h MM min SS sec"
+
+  const hrs = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+  return `${hrs} h ${mins} min ${secs} sec`;
 }
 
 module.exports = {
@@ -160,6 +196,7 @@ module.exports = {
   getWaitingTime,
   getHandlingTime,
   getReportDailyData,
+  getAllDailyReports,
   getReportWeeklyData,
   getReportMonthlyData,
   handledWaitingServiceTimeDistribution,
@@ -168,4 +205,6 @@ module.exports = {
   getYesterdayDate,
   updateLongestWaitingTime,
   getActiveTicketList,
+  convertDate,
+  formatTime,
 };

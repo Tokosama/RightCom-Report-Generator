@@ -1,0 +1,186 @@
+{
+  "companyAlias": "Demo",
+  "today": "Lundi 12 Août, 2024",
+  "missed": 15,
+  "waiting": "31 h 28 min 13 sec",
+  "year": 2024,
+  "smartQueue": "Smart Machin",
+  "customerInformation": {
+    "time": "592 h 44 min 43 sec",
+    "ticket": "THB002",
+    "name": "",
+    "email": "",
+    "phone": "+22961121922"
+  },
+  "allCustomers": {
+    "served": {
+      "total": 5,
+      "percent": 15.62
+    },
+    "noShow": {
+      "total": 15,
+      "percent": 46.88
+    },
+    "avgWaiting": "31 h 28 min 13 sec",
+    "avgService": "7 sec",
+    "avgTime": "31 h 28 min 14 sec",
+    "total": 32
+  },
+  "servicesRequests": [
+    {
+      "id": 1,
+      "serviceName": "Achat de livre",
+      "customers": {
+        "total": 9,
+        "percent": 28.12
+      },
+      "avgWaitingTime": "26 h 48 min 36 sec",
+      "avgServiceTime": "0 h 0 min 0 sec"
+    },
+    {
+      "id": 2,
+      "serviceName": "Samsung",
+      "customers": {
+        "total": 6,
+        "percent": 18.75
+      },
+      "avgWaitingTime": "0 h 14 min 35 sec",
+      "avgServiceTime": "0 h 0 min 1 sec"
+    },
+    {
+      "id": 3,
+      "serviceName": "Dell",
+      "customers": {
+        "total": 4,
+        "percent": 12.5
+      },
+      "avgWaitingTime": "34 h 0 min 6 sec",
+      "avgServiceTime": "0 h 0 min 6 sec"
+    },
+    {
+      "id": 4,
+      "serviceName": "Test",
+      "customers": {
+        "total": 4,
+        "percent": 12.5
+      },
+      "avgWaitingTime": "0 h 2 min 0 sec",
+      "avgServiceTime": "0 h 0 min 0 sec"
+    },
+    {
+      "id": 5,
+      "serviceName": "HP",
+      "customers": {
+        "total": 2,
+        "percent": 6.25
+      },
+      "avgWaitingTime": "0 h 2 min 39 sec",
+      "avgServiceTime": "0 h 0 min 2 sec"
+    },
+    {
+      "id": 6,
+      "serviceName": "Huawei",
+      "customers": {
+        "total": 2,
+        "percent": 6.25
+      },
+      "avgWaitingTime": "0 h 15 min 0 sec",
+      "avgServiceTime": "0 h 0 min 0 sec"
+    },
+    {
+      "id": 7,
+      "serviceName": "Toshiba",
+      "customers": {
+        "total": 1,
+        "percent": 3.12
+      },
+      "avgWaitingTime": "592 h 44 min 43 sec",
+      "avgServiceTime": "0 h 0 min 3 sec"
+    },
+    {
+      "id": 8,
+      "serviceName": "Lenovo",
+      "customers": {
+        "total": 1,
+        "percent": 3.12
+      },
+      "avgWaitingTime": "6 h 11 min 31 sec",
+      "avgServiceTime": "0 h 0 min 0 sec"
+    },
+    {
+      "id": 9,
+      "serviceName": "Test Service 1",
+      "customers": {
+        "total": 1,
+        "percent": 3.12
+      },
+      "avgWaitingTime": "0 h 10 min 0 sec",
+      "avgServiceTime": "0 h 0 min 0 sec"
+    },
+    {
+      "id": 10,
+      "serviceName": "Test Sub Service 2",
+      "customers": {
+        "total": 1,
+        "percent": 3.12
+      },
+      "avgWaitingTime": "28 h 13 min 4 sec",
+      "avgServiceTime": "0 h 0 min 0 sec"
+    },
+    {
+      "id": 11,
+      "serviceName": "iPhone",
+      "customers": {
+        "total": 1,
+        "percent": 3.12
+      },
+      "avgWaitingTime": "0 h 15 min 0 sec",
+      "avgServiceTime": "0 h 0 min 0 sec"
+    }
+  ],
+  "agentPerformances": [
+    {
+      "id": 1,
+      "ticket": {
+        "total": 4,
+        "percent": 12.5
+      },
+      "name": "Hardson TESSI",
+      "avgService": "3 sec"
+    },
+    {
+      "id": 2,
+      "ticket": {
+        "total": 2,
+        "percent": 6.25
+      },
+      "name": "PreDemo NomDemo",
+      "avgService": "1 sec"
+    },
+    {
+      "id": 3,
+      "ticket": {
+        "total": 2,
+        "percent": 6.25
+      },
+      "name": "Amos Ahounou",
+      "avgService": "11 sec"
+    }
+  ],
+  "report_name": "Votre Rapport Journalier Personnalisé - COMPANY-BETA",
+  "daily_csv": "https://cdn.rightcomtech.com/api/1.0/download?app_name=rightq&file_id=9da2b1de-a4c8-437c-a4e8-fbd7e260b1af&as_attachment=0",
+  "firstname": "Sabi",
+  "lastname": "Toko",
+  "email": "anouartoko@gmail.com",
+  "companyName": "COMPANY-BETA",
+  "userId": "85dbb798-04cf-419d-ae49-d4fb52f943ba",
+  "companyId": "demo",
+  "env": "prod",
+  "role": "online",
+  "language": "en",
+  "timeZone": "UTC",
+  "account": "https://demo.rightq.rightcom.com",
+  "xp": "https://demo.rightq.rightcom.com",
+  "feedback": "https://rightcom.com/contact/",
+  "expert": "https://rightcom.com/contact/"
+}

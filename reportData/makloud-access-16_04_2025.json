@@ -1,0 +1,19 @@
+{
+  "activeTickets": [
+    {
+      "id": "LPymRCCihZdJoUeg",
+      "waitingTime": 107370,
+      "handlingTime": 69,
+      "service": "3Xq8u9i0jp",
+      "serviceName": "Vente de pantalons",
+      "agent": "04f8163b-b856-4e30-b9b7-507b8c77f29b",
+      "agentName": "Sabi OROU",
+      "company": "makloud-access",
+      "smartQueue": "LM7VsFlSdE",
+      "smartQueueName": "Smart Chaussures",
+      "status": "ATTENDING",
+      "lastUpdatedAt": "2025-04-16T15:18:39.814Z",
+      "customer": {}
+    }
+  ]
+}

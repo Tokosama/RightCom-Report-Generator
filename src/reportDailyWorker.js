@@ -24,18 +24,18 @@ async function reporDailyWorker(ticket) {
   const timeData = await getTimes(ticket.objectId, ticket.company);
   console.log(timeData);
 
-  const { status, objectId: ticketId } = ticket;
+  const { status, company, objectId: ticketId } = ticket;
 
   const currentDate = moment().format("DD_MM_YYYY");
   //getDailyReportDataFromDb
   //let data = (await getDailyReportDataFromDb(currentDate)) || {};
-  const currentData = await getReportDailyData(currentDate);
+  const currentData = await getReportDailyData(company, currentDate);
 
   let data = null;
 
   if (!currentData) {
     data = {};
-    data.activeTickets = await getActiveTicketList();
+    data.activeTickets = await getActiveTicketList(company);
   } else {
     data = currentData;
   }
@@ -189,7 +189,7 @@ async function reporDailyWorker(ticket) {
         agentName: ticket.names.agentName,
         company: ticket.company,
         smartQueue: ticket.smartQueue,
-        smartQueueName: ticket.smartQueueName,
+        smartQueueName: ticket.names.smartQueueName,
         status: ticket.status,
         lastUpdatedAt: ticket.statusUpdatedAt.iso,
         customer: {
@@ -211,7 +211,7 @@ async function reporDailyWorker(ticket) {
         agentName: ticket.names.agentName,
         company: ticket.company,
         smartQueue: ticket.smartQueue,
-        smartQueueName: ticket.smartQueueName,
+        smartQueueName: ticket.names.smartQueueName,
         status: ticket.status,
         lastUpdatedAt: ticket.statusUpdatedAt.iso,
         customer: {
@@ -246,7 +246,7 @@ async function reporDailyWorker(ticket) {
   }
 
   //await saveDataToDb(currentDate, data);
-  await saveToFile(currentDate, data);
+  await saveToFile(company, currentDate, data);
 }
 //
 // async function processTickets() {

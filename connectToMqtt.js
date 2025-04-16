@@ -27,8 +27,8 @@ client.on("message", (topic, message) => {
     );
     ticketData = JSON.parse(message.toString());
     reporDailyWorker(ticketData);
-    console.log(ticketData)
-    // console.log(ticketData)
+    //console.log(ticketData)
+    //console.log(ticketData);
     //etTimes(ticketData);
 
     //console.log(ticketData);

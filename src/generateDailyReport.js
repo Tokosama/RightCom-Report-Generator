@@ -7,7 +7,7 @@ const {
 const moment = require("moment");
 const { saveToFile } = require("../utils/utils.js");
 const currentDate = moment().format("DD_MM_YYYY");
-const dailyReport = require(`../reportData/${currentDate}.json`);
+//const dailyReport = require(`../reportData/${currentDate}.json`);
 
 async function generateDailyReport(data) {
   // if(!data.smartQueues) data.smartQueues ={}
@@ -22,7 +22,7 @@ async function generateDailyReport(data) {
     waitingTime,
     handlingTime,
   } = data;
-
+ // console.log(data);
   for (const ticket of activeTickets) {
     const {
       id: ticketId,
@@ -30,7 +30,7 @@ async function generateDailyReport(data) {
       service: ticketService,
       serviceName: ticketServiceName,
       smartQueue: ticketSmartQueue,
-      smartQueueName:ticketSmartQueueName,
+      smartQueueName: ticketSmartQueueName,
       agent: ticketAgent,
       agentName: ticketAgentName,
       waitingTime: ticketWaitingTime,
@@ -62,20 +62,35 @@ async function generateDailyReport(data) {
     // console.log(lastWaitingTime);
 
     // serviceData
-    let serviceData = data.services[ticketService] || {
+    if (!data.services) {
+      data.services = {};
+    }
+    if (!data.agents) {
+      data.agents = {};
+    }
+    if (!data.smartQueues) {
+      data.smartQueues = {};
+    }
+    let serviceData = (data.services && data.services[ticketService]) || {
       name: null,
       total: 0,
     };
-    serviceData.name = data.services[ticketService]?.name || ticketServiceName;
-    serviceData.total = (data.services[ticketService]?.total || 0) + 1;
+    //console.log(serviceData);
+    serviceData.name =
+      (data.services && data.services[ticketService]?.name) ||
+      ticketServiceName;
+    serviceData.total =
+      ((data.services && data.services[ticketService]?.total) || 0) + 1;
 
     //agent Data
-    let agentData = data.agents[ticketAgent] || {
+    let agentData = (data.services && data.agents[ticketAgent]) || {
       name: null,
       total: 0,
     };
-    agentData.name = data.agents[ticketAgent]?.name || ticketAgentName;
-    agentData.total = (data.agents[ticketAgent]?.total || 0) + 1;
+    agentData.name =
+      (data.services && data.agents[ticketAgent]?.name) || ticketAgentName;
+    agentData.total =
+      ((data.services && data.agents[ticketAgent]?.total) || 0) + 1;
 
     //longest Waiting Time
     let longestWaitingTime = data.longestWaitingTime || {
@@ -85,16 +100,16 @@ async function generateDailyReport(data) {
       customerPhone: null,
       waitingTime: 0,
     };
-    console.log(longestWaitingTime);
-    console.log("********************************************");
+    //console.log(longestWaitingTime);
+    //console.log("********************************************");
 
     longestWaitingTime = await updateLongestWaitingTime(
       fullWaitingTime,
       longestWaitingTime,
-      ticket,
+      ticketId,
       ticketCustomer
     );
-    console.log(longestWaitingTime);
+   // console.log(longestWaitingTime);
 
     //data attributions
     data.longestWaitingTime = longestWaitingTime;
@@ -181,8 +196,13 @@ async function generateDailyReport(data) {
   }
   delete data["activeTickets"];
   delete data["handledTickets"];
-
+  
+  return data;
   saveToFile(`${currentDate}-final`, data);
 }
 
-generateDailyReport(dailyReport);
+//generateDailyReport(dailyReport);
+
+module.exports = {
+  generateDailyReport,
+};

@@ -6,8 +6,8 @@
 // console.log(minutesDiff); // Devrait donner environ 53 minutes
 // getActiveTicketList();
 //whyHGbIEd369S6uH
-const Parse = require('parse/node');
-const lodash = require('lodash');
+const Parse = require("parse/node");
+const lodash = require("lodash");
 
 const objectId = "OK7td9e9tagY0dDt";
 const company = "makloud-access";
@@ -50,35 +50,32 @@ require("dotenv").config();
 //axiossssssssssssssssssssssssssssssssssssssssssssss
 
 //const xpCache = require("./xpCache");
-
+//------------------------------------------------------------------------------------
 const getRealmUsersWithRolesCache = async (company) => {
-axios
-  .post(
-    `https://xp-api.rightcomtech.com/rest/functions/getRealmUsersWithRoles`,
-    {
-      realm: "makloud-access",
-      token: "rightq",
-
-      _ApplicationId: "rightcomxp",
-      _JavaScriptKey: "javascriptKey",
-      _ClientVersion: "js4.1.0",
-    },
-    {}
-  )
-  .then((res) => {
-   // console.dir(res.data.result[0], { depth: null, colors: true });
-    return res.data
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+  try {
+    const res = await axios.post(
+      `https://xp-api.rightcomtech.com/rest/functions/getRealmUsersWithRoles`,
+      {
+        realm: "makloud-access",
+        token: "rightq",
+        _ApplicationId: "rightcomxp",
+        _JavaScriptKey: "javascriptKey",
+        _ClientVersion: "js4.1.0",
+      }
+    );
+    return res.data;
+  } catch (err) {
+    console.error("Erreur lors de la requête :", err);
+    return null; // important d'avoir un fallback
+  }
 };
 
 // module.exports = getRealmUsersWithRolesCache;
-
+//-------------------------------
 function getUserByRole(company, companyUsers, role) {
+  // console.log(companyUsers.result);
   return lodash
-    .filter(companyUsers, (user) =>
+    .filter(companyUsers.result, (user) =>
       lodash.some(user.clientMappings, (mapping) =>
         lodash.some(mapping.mappings, { name: role })
       )
@@ -86,7 +83,7 @@ function getUserByRole(company, companyUsers, role) {
     .filter((u) => u.enabled)
     .map((u) => ({ ...u, company }));
 }
-
+//-------------------------------
 function getAdmins(company, companyUsers) {
   return getUserByRole(company, companyUsers, "rightq_admin");
 }
@@ -94,28 +91,26 @@ function getAdmins(company, companyUsers) {
 function getManagers(company, companyUsers) {
   return getUserByRole(company, companyUsers, "rightq_manager");
 }
-
+//-------------------------------------------
 const getRealmCache = async (company) => {
-    try {
-      const res = await axios.post(
-        `https://xp-api.rightcomtech.com/rest/functions/getRealm`,
-        {
-          realm: "makloud-access",
-          token: "rightq",
-          _ApplicationId: "rightcomxp",
-          _JavaScriptKey: "javascriptKey",
-          _ClientVersion: "js4.1.0",
-        }
-      );
-     // console.dir(res.data);
-      return res.data; // ✅ ce retour sera bien accessible avec await
-    } catch (err) {
-      console.log(err);
-      return null;
-    }
-  };
-  
-module.exports = getRealmCache;
+  try {
+    const res = await axios.post(
+      `https://xp-api.rightcomtech.com/rest/functions/getRealm`,
+      {
+        realm: "makloud-access",
+        token: "rightq",
+        _ApplicationId: "rightcomxp",
+        _JavaScriptKey: "javascriptKey",
+        _ClientVersion: "js4.1.0",
+      }
+    );
+    // console.dir(res.data);
+    return res.data; // ✅ ce retour sera bien accessible avec await
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
 
 // const redis = require("../connection");
 // const {
@@ -123,93 +118,110 @@ module.exports = getRealmCache;
 //   PARSE_JAVASCRIPT_KEY,
 //   RIGHTQ_BACKEND,
 // } = require("../constants");
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //------------------------------------------------
+// const getCompanyInfoCache = async (company) => {
+//   const key = `${company}_info`;
 
-const getCompanyInfoCache = async (company) => {
-  const key = `${company}_info`;
+//   // let companyInfoCacheData = await redis.get(key);
+//   let companyInfoCacheData = undefined;
 
- // let companyInfoCacheData = await redis.get(key);
- let companyInfoCacheData = undefined;
+//   try {
+//     companyInfoCacheData = JSON.parse(companyInfoCacheData);
+//   } catch (e) {
+//     companyInfoCacheData = undefined;
+//   }
 
-  try {
-    companyInfoCacheData = JSON.parse(companyInfoCacheData);
-  } catch (e) {
-    companyInfoCacheData = undefined;
-  }
+//   if (companyInfoCacheData) return companyInfoCacheData;
 
-  if (companyInfoCacheData) return companyInfoCacheData;
+//   Parse.initialize(PARSE_APP_ID, PARSE_JAVASCRIPT_KEY);
+//   Parse.serverURL = "https://rightq-v2-backend-beta.rightcomtech.com/api";
+//   const companyInfo = await Parse.Cloud.run("checkCompanyInfos", {
+//     realm: company,
+//     token: Date.now(),
+//   }).catch((error) => {
+//     console.log(error);
+//   });
 
-  Parse.initialize(PARSE_APP_ID, PARSE_JAVASCRIPT_KEY);
-  Parse.serverURL = "https://rightq-v2-backend-beta.rightcomtech.com/api";
+//   if (companyInfo) {
+//     companyInfoCacheData = companyInfo.toJSON();
+//     // redis.set(key, JSON.stringify(companyInfoCacheData), "EX", 180);
+//   }
+//   console.log(
+//     "testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt"
+//   );
 
-  const companyInfo = await Parse.Cloud.run("checkCompanyInfos", {
-    realm: company,
-    token: Date.now(),
-  }).catch((error) => {
-    console.log(error);
-  });
+//   return companyInfoCacheData;
+// };
+// //---------------------------------------------------------------
+// function extractReceiverInfo(users, roleName) {
+//   if (!Array.isArray(users) || users.length === 0) {
+//     return [];
+//   }
 
-  if (companyInfo) {
-    companyInfoCacheData = companyInfo.toJSON();
-   // redis.set(key, JSON.stringify(companyInfoCacheData), "EX", 180);
-  }
-  console.log("testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt")
+//   return users
+//     .filter((user) =>
+//       user.clientMappings?.rightq?.mappings?.some(
+//         (mapping) => mapping.name === roleName
+//       )
+//     )
+//     .map((user) => ({
+//       id: user.id,
+//       firstname: user.firstName,
+//       lastname: user.lastName,
+//       email: user.email,
+//       role: roleName,
+//     }));
+// }
+// const PARSE_APP_ID = "rightq";
+// const PARSE_JAVASCRIPT_KEY = "javascriptKey";
+// //
+// async function getCompanyInfos() {
+//   Parse.initialize(PARSE_APP_ID, PARSE_JAVASCRIPT_KEY);
+//   Parse.serverURL = "https://rightq-v2-backend-beta.rightcomtech.com/api";
+//   let company = "makloud-access";
 
-  return companyInfoCacheData;
-};
+//   let companyUsers = await getRealmUsersWithRolesCache(company);
+//   const administrators = getAdmins(company, companyUsers);
+//   const managers = getManagers(company, companyUsers);
 
-module.exports = getCompanyInfoCache;
+//   const Adminsreceivers = extractReceiverInfo(administrators, "rightq_admin");
+//   const managersreceivers = extractReceiverInfo(managers, "rightq_manager");
 
-function extractReceiverInfo(users, roleName) {
-  if (!Array.isArray(users) || users.length === 0) {
-    return [];
-  }
+//   const companyInfo = await getRealmCache(company);
+//   //console.log(companyInfo)
 
-  return users
-    .filter((user) =>
-      user.clientMappings?.rightq?.mappings?.some(
-        (mapping) => mapping.name === roleName
-      )
-    )
-    .map((user) => ({
-      id: user.id,
-      firstname: user.firstName,
-      lastname: user.lastName,
-      email: user.email,
-      role: roleName,
-    }));
-}
-const PARSE_APP_ID = "rightq"
-const PARSE_JAVASCRIPT_KEY ="javascriptKey"
+//   const companyInfosCache = await getCompanyInfoCache(company);
+//   console.log(companyInfo)
+//   return {
+//     companyInfo,
+//     Adminsreceivers,
+//     managersreceivers,
+//     companyInfosCache,
+//   };
+// }
+// async function main() {
+//   const compInfo = await getRealmUsersWithRolesCache(company);
+//   console.log(
+//     "showwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+//   );
+//  // console.log(getAdmins("makloud-access", compInfo));
+//   //console.log(getUserByRole("makloud-access", compInfo, "rightq_admin"));
+//   //console.log(await getCompanyInfos())
+//   await getCompanyInfos()
+// }
 
-async function getCompanyInfos() {
-  Parse.initialize(PARSE_APP_ID, PARSE_JAVASCRIPT_KEY);
-  Parse.serverURL = "https://rightq-v2-backend-beta.rightcomtech.com/api";
-  let company = "opkeyemi";
+// main();
 
-  let companyUsers = await getRealmUsersWithRolesCache(company);
-  const administrators = getAdmins(company, companyUsers);
-  const managers = getManagers(company, companyUsers);
+// // const compInfo =  getCompanyInfos();
+// // console.log(compInfo)
 
-  const Adminsreceivers = extractReceiverInfo(administrators, "rightq_admin");
-  const managersreceivers = extractReceiverInfo(managers, "rightq_manager");
+const fs = require("fs").promises;
+const path = require("path");
+const { getAllDailyReports } = require("./utils");
 
-  const companyInfo = await getRealmCache(company);
-  console.log(companyInfo)
-
-  const companyInfosCache = await getCompanyInfoCache(company);
-  return {
-    companyInfo,
-    Adminsreceivers,
-    managersreceivers,
-    companyInfosCache,
-  };
-}
-async function main() {
-    const compInfo = await getCompanyInfos();
-    console.log(compInfo);
-  }
-  
-  main();
-  
-// const compInfo =  getCompanyInfos();
-// console.log(compInfo)
+ 
+(async () => {
+  const allReport = await getAllDailyReports();
+  console.log("Tous les fichiers :", allReport);
+})();
