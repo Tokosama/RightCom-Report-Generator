@@ -55,9 +55,9 @@ async function sampleMonoDaily(companyId, date, data) {
       total: totalNoShow,
       percent: parseFloat(noShowPercent.toFixed(2)),
     },
-    avgWaiting: formatTime(avgWaiting),
-    avgService: formatTime(avgService),
-    avgTime: formatTime(avgTime),
+    avgWaiting: formatTime(avgWaiting,true),
+    avgService: formatTime(avgService,true),
+    avgTime: formatTime(avgTime,true),
     total: totalCount,
   };
 
@@ -109,8 +109,10 @@ async function sampleMonoDaily(companyId, date, data) {
     const total = agent.total || 0;
     const handlingTime = agent.handlingTime || 0;
     const name = agent.name || "";
-
-    // Ignorer les agents sans nom ou identifiants invalides si tu veux
+  console.log(name)
+    // 🔴 Ignorer les agents sans id ou sans nom
+    if (!agentId || !name) continue;
+  
     agentPerformances.push({
       id: agentId,
       ticket: {
@@ -120,9 +122,10 @@ async function sampleMonoDaily(companyId, date, data) {
           : 0,
       },
       name,
-      avgService: formatTime(total ? handlingTime / total : 0),
+      avgService: formatTime(total ? handlingTime / total : 0, true),
     });
   }
+  
 
   // console.log(agentPerformances);
   const finalReport = {
@@ -133,7 +136,7 @@ async function sampleMonoDaily(companyId, date, data) {
     year: currentYear,
     smartQueue: smartName,
     customerInformation: {
-      time: data.longestWaitingTime.waitingTime,
+      time: formatTime(data.longestWaitingTime.waitingTime),
       ticket: data.longestWaitingTime.ticketId,
       name: data.longestWaitingTime.customerName,
       email: data.longestWaitingTime.custormerEmail,
@@ -170,7 +173,7 @@ async function sampleMonoDaily(companyId, date, data) {
   const finalReports = [];
   //console.log(Adminsreceivers)
   //console.log("*******************************");
-  // console.log(managersreceivers);
+   console.log(managersreceivers);
   managersreceivers.forEach((admin) => {
     const personalizedReport = {
       ...finalReport, // copie du modèle de base
@@ -191,9 +194,9 @@ async function sampleMonoDaily(companyId, date, data) {
   //Print each REport and send it to the userss
   //console.log(managersreceivers)
   for (const report of finalReports) {
-    console.log(report);
+    //console.log(report);
     console.log("//////////////////////////////////////////////");
-    //generateDailyReport("daily_manager_1q_report", report);
+    generateDailyReport("daily_manager_1q_report", report);
   }
   // console.log(totalNoShow);
 }

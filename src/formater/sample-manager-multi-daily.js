@@ -5,12 +5,14 @@ const {
   updateLongestWaitingTime,
   formatTime,
   convertDate,
+  getAllDailyReports,
 } = require("../../utils/utils.js"); //
 const moment = require("moment");
 const { saveToFile } = require("../../utils/utils.js");
 const { getCompanyInfos } = require("../../utils/getCompanyInfo.js");
 const { getAllDailyReportsFromDb, readData } = require("../../lib/leveldb.js");
 const { dailyDataUpdateBeforeFormater } = require("../generateDailyReport.js");
+const { generateDailyReport } = require("../../generateReport.js");
 const currentDate = moment().format("DD_MM_YYYY");
 const currentYear = new Date().getFullYear();
 
@@ -81,12 +83,15 @@ async function sampleMultiDaily(companyId, date, data) {
   let totalAgentTickets = 0;
   for (const [agentId, agentData] of Object.entries(data.agents)) {
     const ticketCount = agentData.total || 0;
-    const percent =
-      totalAgentTickets > 0
-        ? +((ticketCount * 100) / totalAgentTickets).toFixed(2)
-        : 0;
 
-    if (agentId && agentId.trim() !== "") {
+    totalAgentTickets += ticketCount;
+  }
+  for (const [agentId, agentData] of Object.entries(data.agents)) {
+    const ticketCount = agentData.total || 0;
+    const percent =
+      totalAgentTickets > 0 ? (ticketCount * 100) / totalAgentTickets : 0;
+    // ✅ Ne push que si l'ID n'est pas vide
+    if (agentId && agentData && agentId.trim() !== "" && agentId && agentData.name.trim() !== "" ) {
       ticketsPerAgent.push({
         id: agentId,
         name: agentData.name,
@@ -176,33 +181,50 @@ async function sampleMultiDaily(companyId, date, data) {
   for (const report of finalReports) {
     console.log(report);
     console.log("//////////////////////////////////////////////");
+    generateDailyReport("daily_manager_2q_report", report);
 
     // dailyDataUpdateBeforeFormater("daily_admin_report", report);
   }
 }
-
-//sampleMultiDaily(dailyReport);
 (async () => {
-  const allKeys = await getAllDailyReportsFromDb();
+  const allReports = await getAllDailyReports();
+  allReports.forEach(async (file) => {
+    const [namePart, datePartWithExt] = file.split(/-(?=\d{2}_\d{2}_\d{4})/);
+    const date = datePartWithExt.replace(".json", "");
+    const companyId = namePart;
 
-  for (const key of allKeys) {
-    try {
-      const dailyReport = await readData(key);
+    const dailyReport = require(`../../reportData/dailyReport/${file}`);
 
-      // Exemple de clé : "dailyReport/companyA-17_04_2025"
-      const [_, filename] = key.split("dailyReport/"); // on récupère juste "companyA-17_04_2025"
-      const [companyId, date] = filename.split(/-(?=\d{2}_\d{2}_\d{4})/); // companyA, 17_04_2025
+    const addActvieToReport = await dailyDataUpdateBeforeFormater(dailyReport);
+    sampleMultiDaily(companyId, date, addActvieToReport);
+    //console.dir(addActvieToReport, { depth: null, colors: true });
 
-      const addActiveToReport = await dailyDataUpdateBeforeFormater(
-        dailyReport
-      );
-      sampleMultiDaily(companyId, date, addActiveToReport);
-
-      // Pour debug :
-      // console.dir(addActiveToReport, { depth: null, colors: true });
-    } catch (err) {
-      console.error(`❌ Erreur lors du traitement de ${key}`, err);
-    }
-  }
+    //console.log(`Company ID: ${companyId}, Date: ${date}`);
+  });
 })();
-//sampleD
+//sampleMultiDaily(dailyReport);
+// (async () => {
+//   const allKeys = await getAllDailyReportsFromDb();
+
+//   for (const key of allKeys) {
+//     try {
+      
+//       const dailyReport = await readData(key);
+
+//       // Exemple de clé : "dailyReport/companyA-17_04_2025"
+//       const [_, filename] = key.split("dailyReport/"); // on récupère juste "companyA-17_04_2025"
+//       const [companyId, date] = filename.split(/-(?=\d{2}_\d{2}_\d{4})/); // companyA, 17_04_2025
+
+//       const addActiveToReport = await dailyDataUpdateBeforeFormater(
+//         dailyReport
+//       );
+//       sampleMultiDaily(companyId, date, addActiveToReport);
+
+//       // Pour debug :
+//       // console.dir(addActiveToReport, { depth: null, colors: true });
+//     } catch (err) {
+//       console.error(`❌ Erreur lors du traitement de ${key}`, err);
+//     }
+//   }
+// })();
+// //sampleD

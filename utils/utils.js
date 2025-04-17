@@ -187,14 +187,23 @@ function convertDate(date) {
   const formatted = format(parsedDate, "EEEE dd MMMM, yyyy");
   return formatted;
 }
-
-function formatTime(seconds) {
-  // Fonction utilitaire pour formater un temps (en secondes) en "HH h MM min SS sec"
-
+function formatTime(seconds, compact = false) {
   const hrs = Math.floor(seconds / 3600);
   const mins = Math.floor((seconds % 3600) / 60);
-  const secs = seconds % 60;
-  return `${hrs} h ${mins} min ${secs} sec`;
+  const secs = Math.floor(seconds % 60);
+
+  if (compact) {
+    let parts = [];
+
+    if (hrs > 0) parts.push(`${hrs}h`);
+    if (mins > 0 || hrs > 0) parts.push(`${mins}min`);
+    parts.push(`${secs}s`);
+
+    return parts.join(" ");
+  } else {
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${pad(hrs)}h ${pad(mins)}min ${pad(secs)}s`;
+  }
 }
 
 module.exports = {
