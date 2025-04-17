@@ -7,13 +7,12 @@ const {
   formatTime,
 } = require("../../utils/utils.js");
 const dailyReport = require(`../../reportData/15_04_2025-final.json`);
-const { generateDailyReport } = require("../generateDailyReport.js");
-
+const { dailyDataUpdateBeforeFormater } = require("../generateDailyReport.js");
 const { getCompanyInfos } = require("../../utils/getCompanyInfo.js");
-const { report } = require("process");
+const { getAllDailyReportsFromDb, readData } = require("../../lib/leveldb.js");
+const { generateDailyReport } = require("../../generateReport.js");
 const currentYear = new Date().getFullYear();
-
-//generateDailyReport();
+// dailyDataUpdateBeforeFormater();
 
 async function sampleDaily(companyId, date, data) {
   //RateNoshowCount-------------------------------------------------------------------
@@ -85,22 +84,25 @@ async function sampleDaily(companyId, date, data) {
   //Ticket Per Agenttttttttt------------------------------------------------------------------
   const ticketsPerAgent = [];
   let totalAgentTickets = 0;
-  for (const agentData of Object.values(data.agents)) {
-    totalAgentTickets += agentData.total || 0;
+
+  for (const [agentId, agentData] of Object.entries(data.agents)) {
+    const ticketCount = agentData.total || 0;
+
+    totalAgentTickets += ticketCount;
   }
   for (const [agentId, agentData] of Object.entries(data.agents)) {
     const ticketCount = agentData.total || 0;
     const percent =
-      totalAgentTickets > 0
-        ? +((ticketCount * 100) / totalAgentTickets).toFixed(2)
-        : 0;
-
-    ticketsPerAgent.push({
-      id: agentId, // ici l'id est bien la clé
-      name: agentData.name,
-      tickets: ticketCount,
-      percent: percent,
-    });
+      totalAgentTickets > 0 ? (ticketCount * 100) / totalAgentTickets : 0;
+    // ✅ Ne push que si l'ID n'est pas vide
+    if (agentId && agentData && agentId.trim() !== "" && agentId && agentData.name.trim() !== "" ) {
+      ticketsPerAgent.push({
+        id: agentId,
+        name: agentData.name,
+        tickets: ticketCount,
+        percent: percent,
+      });
+    }
   }
 
   //Ticket Handled Per Service-------------------------------------------------------------
@@ -183,20 +185,24 @@ async function sampleDaily(companyId, date, data) {
     console.log(report);
     console.log("//////////////////////////////////////////////");
 
-    // generateDailyReport("daily_admin_report", report);
+    generateDailyReport("daily_admin_report", report);
   }
 }
 
-//excution of the programme
+//excution of the programme for fileStorage
 (async () => {
   const allReports = await getAllDailyReports();
+  //  const allKey = await  getAllDailyReportsFromDb()
+  console.log(allReports);
   allReports.forEach(async (file) => {
     const [namePart, datePartWithExt] = file.split(/-(?=\d{2}_\d{2}_\d{4})/);
+
+    console.log(datePartWithExt);
     const date = datePartWithExt.replace(".json", "");
     const companyId = namePart;
 
     const dailyReport = require(`../../reportData/dailyReport/${file}`);
-    const addActvieToReport = await generateDailyReport(dailyReport);
+    const addActvieToReport = await dailyDataUpdateBeforeFormater(dailyReport);
     sampleDaily(companyId, date, addActvieToReport);
     //console.dir(addActvieToReport, { depth: null, colors: true });
 
@@ -204,4 +210,28 @@ async function sampleDaily(companyId, date, data) {
   });
 })();
 
+//execution of the programme with database
+// (async () => {
+//   const allKeys = await getAllDailyReportsFromDb();
+
+//   for (const key of allKeys) {
+//     try {
+//       const dailyReport = await readData(key);
+
+//       // Exemple de clé : "dailyReport/companyA-17_04_2025"
+//       const [_, filename] = key.split("dailyReport/"); // on récupère juste "companyA-17_04_2025"
+//       const [companyId, date] = filename.split(/-(?=\d{2}_\d{2}_\d{4})/); // companyA, 17_04_2025
+
+//       const addActiveToReport = await dailyDataUpdateBeforeFormater(
+//         dailyReport
+//       );
+//       sampleDaily(companyId, date, addActiveToReport);
+
+//       // Pour debug :
+//       // console.dir(addActiveToReport, { depth: null, colors: true });
+//     } catch (err) {
+//       console.error(`❌ Erreur lors du traitement de ${key}`, err);
+//     }
+//   }
+// })();
 //sampleDaily(dailyReport);

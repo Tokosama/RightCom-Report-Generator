@@ -21,16 +21,28 @@ client.on("connect", () => {
 
 let ticketData = null;
 client.on("message", (topic, message) => {
-  if (!topic.includes("agent_actions")) {
+  console.log(topic);
+  if (!topic.includes("agent_actions") && !topic.includes("backend")) {
     console.log(
       "*********************************************************************"
     );
-    ticketData = JSON.parse(message.toString());
-    reporDailyWorker(ticketData);
-    //console.log(ticketData)
-    //console.log(ticketData);
-    //etTimes(ticketData);
 
+    try {
+      const msgStr = message.toString();
+      // Essayons de parser seulement si ça ressemble à du JSON
+      if (msgStr.startsWith("{")) {
+        ticketData = JSON.parse(msgStr);
+        //console.log(ticketData);
+        reporDailyWorker(ticketData);
+        // console.log(
+        //   "////////////////////////////////////////////////////////////////////"
+        // );
+      } else {
+        console.log("🟡 Message non JSON :", msgStr);
+      }
+    } catch (err) {
+      console.error("❌ Erreur lors du parsing JSON :", err.message);
+    }
     //console.log(ticketData);
     //console.log("topic:", topic);
     // console.log("************************************")

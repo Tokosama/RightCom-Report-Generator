@@ -1,0 +1,162 @@
+{
+  "activeTickets": [
+    {
+      "id": "RcJEgwfuyOS8uJj1",
+      "waitingTime": 0,
+      "handlingTime": 0,
+      "service": "CNl6JCGkfi",
+      "serviceName": "Vente de compléments alimentaires",
+      "agent": "",
+      "agentName": "",
+      "company": "makloud-access",
+      "smartQueue": "LM7VsFlSdE",
+      "smartQueueName": "Smart Chaussures",
+      "status": "CREATED",
+      "lastUpdatedAt": "2025-04-17T09:25:08.183Z",
+      "customer": {}
+    },
+    {
+      "id": "QpJ6z6DtbYjL0shT",
+      "waitingTime": 0,
+      "handlingTime": 0,
+      "service": "1XGNqPEZQB",
+      "serviceName": "Vente de t-shirt MOTIF",
+      "agent": "",
+      "agentName": "",
+      "company": "makloud-access",
+      "smartQueue": "pa5cva2eRSwkffYD",
+      "smartQueueName": "Smart Divertissement",
+      "status": "CREATED",
+      "lastUpdatedAt": "2025-04-17T09:46:55.350Z",
+      "customer": {}
+    },
+    {
+      "id": "AIcU2qi1mblt7tvF",
+      "waitingTime": 0,
+      "handlingTime": 0,
+      "service": "3Xq8u9i0jp",
+      "serviceName": "Vente de pantalons",
+      "agent": "",
+      "agentName": "",
+      "company": "makloud-access",
+      "smartQueue": "LM7VsFlSdE",
+      "smartQueueName": "Smart Chaussures",
+      "status": "CREATED",
+      "lastUpdatedAt": "2025-04-17T10:01:12.420Z",
+      "customer": {}
+    },
+    {
+      "id": "eAL771oEw34e7DcD",
+      "waitingTime": 0,
+      "handlingTime": 0,
+      "service": "3Xq8u9i0jp",
+      "serviceName": "Vente de pantalons",
+      "agent": "",
+      "agentName": "",
+      "company": "makloud-access",
+      "smartQueue": "LM7VsFlSdE",
+      "smartQueueName": "Smart Chaussures",
+      "status": "CREATED",
+      "lastUpdatedAt": "2025-04-17T10:02:49.315Z",
+      "customer": {}
+    }
+  ],
+  "smartQueues": {
+    "LM7VsFlSdE": {
+      "name": "Smart Chaussures",
+      "waitingTime": 1599,
+      "handlingTime": 121,
+      "total": { "count": 9, "closed": 7, "noshow": 2 },
+      "services": {
+        "3Xq8u9i0jp": {
+          "name": "Vente de pantalons",
+          "waitingTime": 1577,
+          "handlingTime": 10,
+          "total": { "count": 6, "closed": 4, "noshow": 2 }
+        },
+        "CNl6JCGkfi": {
+          "name": "Vente de compléments alimentaires",
+          "waitingTime": 22,
+          "handlingTime": 111,
+          "total": { "count": 3, "closed": 3, "noshow": 0 }
+        }
+      },
+      "agents": {
+        "04f8163b-b856-4e30-b9b7-507b8c77f29b": {
+          "name": "Sabi OROU",
+          "handlingTime": 121,
+          "total": { "count": 9, "closed": 7, "noshow": 2 }
+        }
+      }
+    },
+    "pa5cva2eRSwkffYD": {
+      "name": "Smart Divertissement",
+      "waitingTime": 1449,
+      "handlingTime": 76,
+      "total": { "count": 7, "closed": 2, "noshow": 5 },
+      "services": {
+        "CNl6JCGkfi": {
+          "name": "Vente de compléments alimentaires",
+          "waitingTime": 62,
+          "handlingTime": 74,
+          "total": { "count": 2, "closed": 1, "noshow": 1 }
+        },
+        "1XGNqPEZQB": {
+          "name": "Vente de t-shirt MOTIF",
+          "waitingTime": 1387,
+          "handlingTime": 2,
+          "total": { "count": 5, "closed": 1, "noshow": 4 }
+        }
+      },
+      "agents": {
+        "04f8163b-b856-4e30-b9b7-507b8c77f29b": {
+          "name": "Sabi OROU",
+          "handlingTime": 76,
+          "total": { "count": 6, "closed": 2, "noshow": 4 }
+        },
+        "RIGHTBOT": {
+          "name": "",
+          "handlingTime": 0,
+          "total": { "count": 1, "noshow": 1 }
+        }
+      }
+    }
+  },
+  "services": {
+    "3Xq8u9i0jp": {
+      "name": "Vente de pantalons",
+      "waitingTime": 1577,
+      "handlingTime": 10,
+      "total": 6
+    },
+    "CNl6JCGkfi": {
+      "name": "Vente de compléments alimentaires",
+      "waitingTime": 84,
+      "handlingTime": 185,
+      "total": 5
+    },
+    "1XGNqPEZQB": {
+      "name": "Vente de t-shirt MOTIF",
+      "waitingTime": 1387,
+      "handlingTime": 2,
+      "total": 5
+    }
+  },
+  "agents": {
+    "04f8163b-b856-4e30-b9b7-507b8c77f29b": {
+      "name": "Sabi OROU",
+      "handlingTime": 197,
+      "total": 15
+    },
+    "RIGHTBOT": { "name": "", "handlingTime": 0, "total": 1 }
+  },
+  "waitingTime": 3048,
+  "handlingTime": 197,
+  "longestWaitingTime": {
+    "ticketId": "HuH1KCZ0hXSSJ5pl",
+    "customerName": "",
+    "custormerEmail": "",
+    "customerPhone": "",
+    "waitingTime": 1200
+  }
+}

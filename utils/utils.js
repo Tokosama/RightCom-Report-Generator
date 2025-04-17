@@ -26,8 +26,10 @@ function getHandlingTime(ticket) {
   return 20;
   // return Math.random() * 5256;
 }
-async function getDailyReportDataFromDb(key) {
+async function getDailyReportDataFromDb(company, date) {
+  const key = `dailyReport/${company}-${date}`;
   console.log(key);
+
   const data = await readData(key);
   if (!data) {
     await saveDataToDb(key, {});
@@ -42,13 +44,22 @@ async function getDailyReportDataFromDb(key) {
 }
 
 async function getReportDailyData(company, day) {
-  if (!fs.access("reportData/dailyReport")) {
-    fs.writeFile("reportData/dailyReport");
-  }
+  const dirPath = path.join("reportData", "dailyReport");
+  const filePath = path.join(dirPath, `${company}-${day}.json`);
+
   try {
-    let data = fs.readFileSync(`reportData/dailyReport/${company}-${day}.json`);
-    return JSON.parse(data.toString());
-  } catch (e) {}
+    // Vérifie si le dossier existe, sinon le créer
+    await fs.access(dirPath).catch(async () => {
+      await fs.mkdir(dirPath, { recursive: true });
+    });
+
+    // Lire le fichier
+    const data = await fs.readFile(filePath, "utf-8");
+    return JSON.parse(data);
+  } catch (e) {
+    console.error("Erreur dans getReportDailyData:", e.message);
+    return null;
+  }
 }
 async function getReportWeeklyData(day) {
   if (!fs.existsSync("reportData")) {
@@ -148,16 +159,13 @@ async function getActiveTicketList(company) {
 
 async function getTimes(ticketId, company) {
   try {
-    console.log(ticketId);
-    console.log(company);
-
     const res = await axios.get(
       `${process.env.TIMES_CALCUL_URL}/readTimes?objectId=${ticketId}&company=${company}`
     );
 
     return res.data; // <- ici tu retournes bien la valeur
   } catch (err) {
-    console.error(err);
+    //console.error(err);
     return null; // <- en cas d'erreur, retourne null ou un objet vide
   }
 }
@@ -172,8 +180,7 @@ async function getAllDailyReports() {
     return [];
   }
 }
-
-async function convertDate(date) {
+function convertDate(date) {
   // Convertir le string en objet Date
   const parsedDate = parse(date, "dd_MM_yyyy", new Date());
   // Formater l’objet Date

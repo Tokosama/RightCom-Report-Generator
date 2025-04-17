@@ -1,0 +1,66 @@
+{
+  "activeTickets": [
+    {
+      "id": "s0P8uP4ToqLGzU7Z",
+      "waitingTime": 20,
+      "handlingTime": 20,
+      "service": "lrBBv0wjZy",
+      "serviceName": "Bobo",
+      "agent": "808f5385-1d2d-4438-8824-8252ac028bec",
+      "agentName": "Thomas BOKO",
+      "company": "company-beta",
+      "smartQueue": "LwDB9Muv45",
+      "smartQueueName": "Free queue",
+      "status": "CALLED",
+      "lastUpdatedAt": "2025-04-17T16:18:16.940Z",
+      "customer": {}
+    }
+  ],
+  "smartQueues": {
+    "LwDB9Muv45": {
+      "name": "Free queue",
+      "waitingTime": 634,
+      "handlingTime": 78,
+      "total": { "count": 2, "closed": 2, "noshow": 0 },
+      "services": {
+        "lrBBv0wjZy": {
+          "name": "Bobo",
+          "waitingTime": 634,
+          "handlingTime": 78,
+          "total": { "count": 2, "closed": 2, "noshow": 0 }
+        }
+      },
+      "agents": {
+        "808f5385-1d2d-4438-8824-8252ac028bec": {
+          "name": "Thomas BOKO",
+          "handlingTime": 78,
+          "total": { "count": 2, "closed": 2 }
+        }
+      }
+    }
+  },
+  "services": {
+    "lrBBv0wjZy": {
+      "name": "Bobo",
+      "waitingTime": 634,
+      "handlingTime": 78,
+      "total": 2
+    }
+  },
+  "agents": {
+    "808f5385-1d2d-4438-8824-8252ac028bec": {
+      "name": "Thomas BOKO",
+      "handlingTime": 78,
+      "total": 2
+    }
+  },
+  "waitingTime": 634,
+  "handlingTime": 78,
+  "longestWaitingTime": {
+    "ticketId": "CdLrZs7DB9olgwEw",
+    "customerName": "",
+    "custormerEmail": "",
+    "customerPhone": "",
+    "waitingTime": 536
+  }
+}

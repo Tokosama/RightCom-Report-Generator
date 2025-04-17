@@ -14,25 +14,22 @@ const {
   getTimes,
 } = require("../utils/utils.js");
 
-//const { saveDataToDb } = require("../lib/leveldb.js");
+const { saveDataToDb } = require("../lib/leveldb.js");
 
 async function reporDailyWorker(ticket) {
-  console.log("lettttttttttttttttttttttttttttttttttttttttt");
-
-  //console.log(ticket);
+  console.log(
+    "reeeeeeeeeeeeeeeeporttttttttttttttttttttttDailyyyyyyyyyyyyyyyyyyyyyyyyyy"
+  );
   //get Time infos
   const timeData = await getTimes(ticket.objectId, ticket.company);
-  console.log(timeData);
-
   const { status, company, objectId: ticketId } = ticket;
-
   const currentDate = moment().format("DD_MM_YYYY");
   //getDailyReportDataFromDb
-  //let data = (await getDailyReportDataFromDb(currentDate)) || {};
+  // const currentData =
+  //   (await getDailyReportDataFromDb(company, currentDate)) || {};
   const currentData = await getReportDailyData(company, currentDate);
-
   let data = null;
-
+  console.log(currentData);
   if (!currentData) {
     data = {};
     data.activeTickets = await getActiveTicketList(company);
@@ -60,6 +57,8 @@ async function reporDailyWorker(ticket) {
     };
     queueData.name = data.smartQueues[smartQueue]?.name || names.smartQueueName;
 
+    console.log();
+    console.log(smartQueue);
     let serviceQueueData = queueData.services[service] || {
       name: null,
       waitingTime: 0,
@@ -78,11 +77,14 @@ async function reporDailyWorker(ticket) {
 
     let serviceData = data.services[service] || {
       name: null,
+      waitingTime: 0,
+      handlingTime: 0,
       total: 0,
     };
 
     let agentData = data.agents[agent] || {
       name: null,
+      handlingTime: 0,
       total: 0,
     };
     // let serviceTicketsCount = data.services[service] || 0;
@@ -119,9 +121,14 @@ async function reporDailyWorker(ticket) {
     // basics values
     serviceData.name = serviceData.name || names.serviceName;
     serviceData.total = (serviceData.total || 0) + 1;
+    serviceData.waitingTime =
+      (serviceData.waitingTime || 0) + ticketWaitingTime;
+    serviceData.handlingTime =
+      (serviceData.handlingTime || 0) + ticketHandlingTime;
 
     agentData.name = agentData.name || names.agentName;
     agentData.total = (agentData.total || 0) + 1;
+    agentData.handlingTime = (agentData.handlingTime || 0) + ticketHandlingTime;
 
     data.services[service] = serviceData;
     data.agents[agent] = agentData;
@@ -140,7 +147,7 @@ async function reporDailyWorker(ticket) {
     longestWaitingTime = await updateLongestWaitingTime(
       ticketWaitingTime,
       longestWaitingTime,
-      ticket,
+      ticketId,
       customer
     );
 
@@ -162,7 +169,7 @@ async function reporDailyWorker(ticket) {
     queueData.services[service] = serviceQueueData;
     queueData.agents[agent] = agentQueueData;
     data.smartQueues[smartQueue] = queueData;
-
+    console.log(queueData);
     // remove ticket from active tickets list
     data.activeTickets = data.activeTickets?.filter(
       (activeTicket) => activeTicket.id !== ticketId
@@ -244,8 +251,8 @@ async function reporDailyWorker(ticket) {
     //   }
     // }
   }
-
-  //await saveDataToDb(currentDate, data);
+  //console.log(currentData);
+  // await saveDataToDb(company,currentDate, data);
   await saveToFile(company, currentDate, data);
 }
 //

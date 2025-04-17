@@ -44,14 +44,30 @@
     }
   },
   "services": {
-    "3Xq8u9i0jp": { "name": "Vente de pantalons", "total": 9 },
-    "G0dn520FBK": { "name": "bétà", "total": 1 },
-    "McJcrOj8LAlBgM5u": { "name": "another4-1", "total": 1 }
+    "3Xq8u9i0jp": {
+      "name": "Vente de pantalons",
+      "waitingTime": 8,
+      "handlingTime": 6,
+      "total": 9
+    },
+    "G0dn520FBK": { "name": "bétà",
+    "waitingTime": 8,
+    "handlingTime": 6, "total": 1 },
+    "McJcrOj8LAlBgM5u": {
+      "name": "another4-1",
+      "waitingTime": 8,
+      "handlingTime": 6,
+      "total": 1
+    }
   },
   "agents": {
-    "04f8163b-b856-4e30-b9b7-507b8c77f29b": { "name": "Sabi OROU", "total": 7 },
-    "": { "name": "", "total": 2 },
-    "undefined": { "total": 2 }
+    "04f8163b-b856-4e30-b9b7-507b8c77f29b": {
+      "name": "Sabi OROU",
+      "handlingTime": 6,
+      "total": 7
+    },
+    "": { "name": "", "handlingTime": 6, "total": 2 },
+    "undefined": { "total": 2, "handlingTime": 6 }
   },
   "waitingTime": 645095,
   "handlingTime": 898,

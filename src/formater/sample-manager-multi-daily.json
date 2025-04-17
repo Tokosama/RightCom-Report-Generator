@@ -1,0 +1,131 @@
+{
+    "companyAlias": "Demo",
+    "to": "",
+    "today": "Monday 12 August, 2024",
+    "avgWaitedTime": "32 h 53 min 45 sec",
+    "year": 2024,
+    "account": "https://demo.rightq.rightcom.com",
+    "rateOfNoShow": {
+        "percent": 46.9,
+        "of": 15,
+        "total": 32
+    },
+    "visitorsPerSmartQues": [
+        {
+            "id": 1,
+            "smartQueue": "Smart Machin",
+            "visitors": 32,
+            "percent": 100
+        }
+    ],
+    "averageWaitingTimePerSmartQueue": [
+        {
+            "id": 1,
+            "smartQueue": "Smart Machin",
+            "avgWaitingTime": "32 h 53 min 45 sec"
+        }
+    ],
+    "ticketsPerAgent": [
+        {
+            "id": 1,
+            "name": "Hardson TESSI",
+            "tickets": 4,
+            "percent": 50
+        },
+        {
+            "id": 2,
+            "name": "PreDemo NomDemo",
+            "tickets": 2,
+            "percent": 25
+        },
+        {
+            "id": 3,
+            "name": "Amos Ahounou",
+            "tickets": 2,
+            "percent": 25
+        }
+    ],
+    "ticketsHandlePerService": [
+        {
+            "id": 1,
+            "serviceName": "Achat de livre",
+            "tickets": 9,
+            "percent": 28.1
+        },
+        {
+            "id": 2,
+            "serviceName": "Samsung",
+            "tickets": 6,
+            "percent": 18.8
+        },
+        {
+            "id": 3,
+            "serviceName": "Dell",
+            "tickets": 4,
+            "percent": 12.5
+        },
+        {
+            "id": 4,
+            "serviceName": "Test",
+            "tickets": 4,
+            "percent": 12.5
+        },
+        {
+            "id": 5,
+            "serviceName": "HP",
+            "tickets": 2,
+            "percent": 6.2
+        },
+        {
+            "id": 6,
+            "serviceName": "Huawei",
+            "tickets": 2,
+            "percent": 6.2
+        },
+        {
+            "id": 7,
+            "serviceName": "Toshiba",
+            "tickets": 1,
+            "percent": 3.1
+        },
+        {
+            "id": 8,
+            "serviceName": "Lenovo",
+            "tickets": 1,
+            "percent": 3.1
+        },
+        {
+            "id": 9,
+            "serviceName": "Test Service 1",
+            "tickets": 1,
+            "percent": 3.1
+        },
+        {
+            "id": 10,
+            "serviceName": "Test Sub Service 2",
+            "tickets": 1,
+            "percent": 3.1
+        },
+        {
+            "id": 11,
+            "serviceName": "iPhone",
+            "tickets": 1,
+            "percent": 3.1
+        }
+    ],
+    "report_name": "Your Daily Personalized Report - COMPANY-BETA",
+    "daily_csv": "https://cdn.rightcomtech.com/api/1.0/download?app_name=rightq&file_id=6f655e9e-d45f-4009-a395-f14907e74798&as_attachment=0",
+    "firstname": "Sabi",
+    "lastname": "toko",
+    "email": "anouartoko@gmail.com",
+    "companyName": "COMPANY-BETA",
+    "userId": "fe916eac-830d-488a-a637-e4aeb3a7ade5",
+    "companyId": "demo",
+    "env": "prod",
+    "role": "online",
+    "language": "fr",
+    "timeZone": "UTC",
+    "xp": "https://demo.rightq.rightcom.com",
+    "feedback": "https://rightcom.com/contact/",
+    "expert": "https://rightcom.com/contact/"
+}

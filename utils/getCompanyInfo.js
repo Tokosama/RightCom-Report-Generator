@@ -11,7 +11,7 @@ const getRealmUsersWithRolesCache = async (company) => {
     const res = await axios.post(
       `https://xp-api.rightcomtech.com/rest/functions/getRealmUsersWithRoles`,
       {
-        realm: "makloud-access",
+        realm: company,
         token: "rightq",
         _ApplicationId: "rightcomxp",
         _JavaScriptKey: "javascriptKey",

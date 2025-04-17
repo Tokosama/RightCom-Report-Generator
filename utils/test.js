@@ -15,6 +15,8 @@ const smartQueue = "XaD25rPCvp";
 const service = "CLZfDXQMvV";
 const status = "NOSHOW";
 const axios = require("axios");
+const { getDailyReportDataFromDb } = require("./utils");
+const { getAllDailyReportsFromDb } = require("../lib/leveldb");
 //const { getTimes } = require("./utils");
 require("dotenv").config();
 // axios
@@ -49,76 +51,71 @@ require("dotenv").config();
 //console.log(getTimes(ticket))
 //axiossssssssssssssssssssssssssssssssssssssssssssss
 
-//const xpCache = require("./xpCache");
-//------------------------------------------------------------------------------------
-const getRealmUsersWithRolesCache = async (company) => {
-  try {
-    const res = await axios.post(
-      `https://xp-api.rightcomtech.com/rest/functions/getRealmUsersWithRoles`,
-      {
-        realm: "makloud-access",
-        token: "rightq",
-        _ApplicationId: "rightcomxp",
-        _JavaScriptKey: "javascriptKey",
-        _ClientVersion: "js4.1.0",
-      }
-    );
-    return res.data;
-  } catch (err) {
-    console.error("Erreur lors de la requête :", err);
-    return null; // important d'avoir un fallback
-  }
-};
+// //const xpCache = require("./xpCache");
+// //------------------------------------------------------------------------------------
+// const getRealmUsersWithRolesCache = async (company) => {
+//   try {
+//     const res = await axios.post(
+//       `https://xp-api.rightcomtech.com/rest/functions/getRealmUsersWithRoles`,
+//       {
+//         realm: `${company}`,
+//         token: "rightq",
+//         _ApplicationId: "rightcomxp",
+//         _JavaScriptKey: "javascriptKey",
+//         _ClientVersion: "js4.1.0",
+//       }
+//     );
+//     return res.data;
+//   } catch (err) {
+//     console.error("Erreur lors de la requête :", err);
+//     return null; // important d'avoir un fallback
+//   }
+// };
 
-// module.exports = getRealmUsersWithRolesCache;
-//-------------------------------
-function getUserByRole(company, companyUsers, role) {
-  // console.log(companyUsers.result);
-  return lodash
-    .filter(companyUsers.result, (user) =>
-      lodash.some(user.clientMappings, (mapping) =>
-        lodash.some(mapping.mappings, { name: role })
-      )
-    )
-    .filter((u) => u.enabled)
-    .map((u) => ({ ...u, company }));
-}
-//-------------------------------
-function getAdmins(company, companyUsers) {
-  return getUserByRole(company, companyUsers, "rightq_admin");
-}
-// //getAdmins();
-function getManagers(company, companyUsers) {
-  return getUserByRole(company, companyUsers, "rightq_manager");
-}
-//-------------------------------------------
-const getRealmCache = async (company) => {
-  try {
-    const res = await axios.post(
-      `https://xp-api.rightcomtech.com/rest/functions/getRealm`,
-      {
-        realm: "makloud-access",
-        token: "rightq",
-        _ApplicationId: "rightcomxp",
-        _JavaScriptKey: "javascriptKey",
-        _ClientVersion: "js4.1.0",
-      }
-    );
-    // console.dir(res.data);
-    return res.data; // ✅ ce retour sera bien accessible avec await
-  } catch (err) {
-    console.log(err);
-    return null;
-  }
-};
+// // module.exports = getRealmUsersWithRolesCache;
+// //-------------------------------
+// function getUserByRole(company, companyUsers, role) {
+//   // console.log(companyUsers.result);
+//   return lodash
+//     .filter(companyUsers.result, (user) =>
+//       lodash.some(user.clientMappings, (mapping) =>
+//         lodash.some(mapping.mappings, { name: role })
+//       )
+//     )
+//     .filter((u) => u.enabled)
+//     .map((u) => ({ ...u, company }));
+// }
+// //-------------------------------
+// function getAdmins(company, companyUsers) {
+//   return getUserByRole(company, companyUsers, "rightq_admin");
+// }
+// // //getAdmins();
+// function getManagers(company, companyUsers) {
+//   return getUserByRole(company, companyUsers, "rightq_manager");
+// }
+// //-------------------------------------------
+// const getRealmCache = async (company) => {
+//   try {
+//     const res = await axios.post(
+//       `https://xp-api.rightcomtech.com/rest/functions/getRealm`,
+//       {
+//         realm: `${company}`,
 
-// const redis = require("../connection");
-// const {
-//   PARSE_APP_ID,
-//   PARSE_JAVASCRIPT_KEY,
-//   RIGHTQ_BACKEND,
-// } = require("../constants");
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//         token: "rightq",
+//         _ApplicationId: "rightcomxp",
+//         _JavaScriptKey: "javascriptKey",
+//         _ClientVersion: "js4.1.0",
+//       }
+//     );
+//     // console.dir(res.data);
+//     return res.data; // ✅ ce retour sera bien accessible avec await
+//   } catch (err) {
+//     console.log(err);
+//     return null;
+//   }
+// };
+
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // //------------------------------------------------
 // const getCompanyInfoCache = async (company) => {
 //   const key = `${company}_info`;
@@ -192,36 +189,38 @@ const getRealmCache = async (company) => {
 //   //console.log(companyInfo)
 
 //   const companyInfosCache = await getCompanyInfoCache(company);
-//   console.log(companyInfo)
+//   // console.log(companyInfo)
 //   return {
-//     companyInfo,
-//     Adminsreceivers,
+//     // companyInfo,
+//    // Adminsreceivers,
 //     managersreceivers,
-//     companyInfosCache,
+//     //companyInfosCache,
 //   };
 // }
 // async function main() {
-//   const compInfo = await getRealmUsersWithRolesCache(company);
+//   const compInfo = await getCompanyInfos();
 //   console.log(
 //     "showwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
 //   );
-//  // console.log(getAdmins("makloud-access", compInfo));
+//   // console.log(getAdmins("makloud-access", compInfo));
 //   //console.log(getUserByRole("makloud-access", compInfo, "rightq_admin"));
 //   //console.log(await getCompanyInfos())
-//   await getCompanyInfos()
+//   console.dir(compInfo, { depth: null, colors: true });
 // }
 
 // main();
 
-// // const compInfo =  getCompanyInfos();
-// // console.log(compInfo)
+// const compInfo =  getCompanyInfos();
+// console.log(compInfo)
 
-const fs = require("fs").promises;
-const path = require("path");
-const { getAllDailyReports } = require("./utils");
+// const fs = require("fs").promises;
+// const path = require("path");
+// const { getAllDailyReports } = require("./utils");
 
- 
+
+
 (async () => {
-  const allReport = await getAllDailyReports();
-  console.log("Tous les fichiers :", allReport);
+  const allKey = await  getAllDailyReportsFromDb()
+
+  console.log(allKey);
 })();
