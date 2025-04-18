@@ -6,13 +6,15 @@ const {
   formatTime,
   convertDate,
   getAllDailyReports,
-} = require("../../utils/utils.js"); //
+} = require("../../utils/index.js"); //
 const moment = require("moment");
-const { saveToFile } = require("../../utils/utils.js");
+const { saveToFile } = require("../../utils/index.js");
 const { getCompanyInfos } = require("../../utils/getCompanyInfo.js");
 const { getAllDailyReportsFromDb, readData } = require("../../lib/leveldb.js");
-const { dailyDataUpdateBeforeFormater } = require("../generateDailyReport.js");
-const { generateDailyReport } = require("../../generateReport.js");
+const {
+  dailyDataUpdateBeforeFormater,
+} = require("../../utils/dailyDataUpdateBeforeFormatter.js");
+const { generateDailyReport } = require("../../utils/generateReport.js");
 const currentDate = moment().format("DD_MM_YYYY");
 const currentYear = new Date().getFullYear();
 
@@ -73,7 +75,7 @@ async function sampleMultiDaily(companyId, date, data) {
     const avgTimeSec = totalCount > 0 ? Math.floor(waitTime / totalCount) : 0;
     averageWaitingTimePerSmartQueue.push({
       id: queueId,
-      smartQueue: queueId, // ou remplace par un nom plus lisible si dispo
+      smartQueue: queue.name, // ou remplace par un nom plus lisible si dispo
       avgWaitingTime: formatTime(avgTimeSec),
     });
   }
@@ -91,7 +93,13 @@ async function sampleMultiDaily(companyId, date, data) {
     const percent =
       totalAgentTickets > 0 ? (ticketCount * 100) / totalAgentTickets : 0;
     // ✅ Ne push que si l'ID n'est pas vide
-    if (agentId && agentData && agentId.trim() !== "" && agentId && agentData.name.trim() !== "" ) {
+    if (
+      agentId &&
+      agentData &&
+      agentId.trim() !== "" &&
+      agentData.name &&
+      agentData.name.trim() !== ""
+    ) {
       ticketsPerAgent.push({
         id: agentId,
         name: agentData.name,
@@ -186,29 +194,29 @@ async function sampleMultiDaily(companyId, date, data) {
     // dailyDataUpdateBeforeFormater("daily_admin_report", report);
   }
 }
-(async () => {
-  const allReports = await getAllDailyReports();
-  allReports.forEach(async (file) => {
-    const [namePart, datePartWithExt] = file.split(/-(?=\d{2}_\d{2}_\d{4})/);
-    const date = datePartWithExt.replace(".json", "");
-    const companyId = namePart;
+// (async () => {
+//   const allReports = await getAllDailyReports();
+//   allReports.forEach(async (file) => {
+//     const [namePart, datePartWithExt] = file.split(/-(?=\d{2}_\d{2}_\d{4})/);
+//     const date = datePartWithExt.replace(".json", "");
+//     const companyId = namePart;
 
-    const dailyReport = require(`../../reportData/dailyReport/${file}`);
+//     const dailyReport = require(`../../reportData/dailyReport/${file}`);
 
-    const addActvieToReport = await dailyDataUpdateBeforeFormater(dailyReport);
-    sampleMultiDaily(companyId, date, addActvieToReport);
-    //console.dir(addActvieToReport, { depth: null, colors: true });
+//     const addActvieToReport = await dailyDataUpdateBeforeFormater(dailyReport);
+//     sampleMultiDaily(companyId, date, addActvieToReport);
+//     //console.dir(addActvieToReport, { depth: null, colors: true });
 
-    //console.log(`Company ID: ${companyId}, Date: ${date}`);
-  });
-})();
+//     //console.log(`Company ID: ${companyId}, Date: ${date}`);
+//   });
+// })();
 //sampleMultiDaily(dailyReport);
 // (async () => {
 //   const allKeys = await getAllDailyReportsFromDb();
 
 //   for (const key of allKeys) {
 //     try {
-      
+
 //       const dailyReport = await readData(key);
 
 //       // Exemple de clé : "dailyReport/companyA-17_04_2025"
@@ -228,3 +236,6 @@ async function sampleMultiDaily(companyId, date, data) {
 //   }
 // })();
 // //sampleD
+module.exports = {
+  sampleMultiDaily,
+};

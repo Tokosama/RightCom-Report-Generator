@@ -1,5 +1,4 @@
-const tickets = require("../tickets.json"); // Importer directement
-
+const tickets = require("../../tickets.json"); // Importer directement
 const fs = require("fs");
 const moment = require("moment");
 const {
@@ -12,11 +11,11 @@ const {
   getYesterdayDateString,
   updateLongestWaitingTime,
   getTimes,
-} = require("../utils/utils.js");
+} = require("../utils/index.js");
 
 const { saveDataToDb } = require("../lib/leveldb.js");
 
-async function reporDailyWorker(ticket) {
+async function reportDailyWorker(ticket) {
   console.log(
     "reeeeeeeeeeeeeeeeporttttttttttttttttttttttDailyyyyyyyyyyyyyyyyyyyyyyyyyy"
   );
@@ -258,10 +257,10 @@ async function reporDailyWorker(ticket) {
 //
 // async function processTickets() {
 //   for (const ticket of tickets) {
-//     await reporDailyWorker(ticket);
+//     await reportDailyWorker(ticket);
 //   }
 // }
 // processTickets();
 module.exports = {
-  reporDailyWorker,
+  reportDailyWorker,
 };

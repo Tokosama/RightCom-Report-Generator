@@ -3,11 +3,11 @@ const {
   calculateTime,
   updateLongestWaitingTime,
   getTimes,
-} = require("../utils/utils.js"); //
+} = require("./index.js"); //
 const moment = require("moment");
-const { saveToFile } = require("../utils/utils.js");
+const { saveToFile } = require("./index.js");
 const currentDate = moment().format("DD_MM_YYYY");
-const dailyReport = require(`../reportData/dailyReport/makloud-access-17_04_2025.json`);
+//const dailyReport = require(`../reportData/dailyReport/makloud-access-17_04_2025.json`);
 
 async function dailyDataUpdateBeforeFormater(data) {
   // if(!data.smartQueues) data.smartQueues ={}

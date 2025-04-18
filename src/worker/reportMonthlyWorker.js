@@ -1,5 +1,5 @@
-const { getISOWeek } = require("date-fns");
-const tickets = require("../tickets.json");
+const { getMonth } = require("date-fns");
+const tickets = require("../../tickets.json"); // Importer directement
 const fs = require("fs");
 const moment = require("moment");
 
@@ -7,15 +7,15 @@ const {
   saveToFile,
   getWaitingTime,
   getHandlingTime,
-  getReportWeeklyData,
+  getReportMonthlyData,
   handledWaitingServiceTimeDistribution,
 } = require("../utils/utils.js");
 
-async function reportWeeklyWorker(ticket) {
+async function reportMonthlyWorker(ticket) {
   const { status, objectId: ticketId } = ticket;
 
-  const currentWeek = getISOWeek(new Date());
-  let data = (await getReportWeeklyData(currentWeek)) || {};
+  const currentMonth = getMonth(new Date()) + 1;
+  let data = (await getReportMonthlyData(currentMonth)) || {};
   if (["NOSHOW", "CLOSED"].includes(status)) {
     const ticketWaitingTime = getWaitingTime(ticket);
     const ticketHandlingTime = getHandlingTime(ticket);
@@ -24,7 +24,6 @@ async function reportWeeklyWorker(ticket) {
     if (!data.services) data.services = {};
     if (!data.agents) data.agents = {};
 
-    //Array retaining the  waitingTimeDistribution
     if (!data.waitingTimeDistribution)
       data.waitingTimeDistribution = {
         lessThanTwo: [],
@@ -86,6 +85,7 @@ async function reportWeeklyWorker(ticket) {
       count: agentTicketsCount + 1,
       handlingTime: agentHandlingTime + getHandlingTime(ticket),
     };
+    //console.log(data.agents);
     if (!queueData.services) queueData.services = {};
     let queueServiceTicketsCount = queueData.services[service] || 0;
     queueData.services[service] = queueServiceTicketsCount + 1;
@@ -212,12 +212,13 @@ async function reportWeeklyWorker(ticket) {
     // }
   }
 
-  await saveToFile(`week-${currentWeek}`, data);
+  await saveToFile(`month-${currentMonth}`, data);
 }
 
 async function processTickets() {
   for (const ticket of tickets) {
-    await reportWeeklyWorker(ticket);
+    await reportMonthlyWorker(ticket);
   }
 }
--processTickets();
+
+processTickets();

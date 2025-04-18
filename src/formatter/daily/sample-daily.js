@@ -5,12 +5,13 @@ const {
   getAllDailyReports,
   convertDate,
   formatTime,
-} = require("../../utils/utils.js");
-const dailyReport = require(`../../reportData/15_04_2025-final.json`);
-const { dailyDataUpdateBeforeFormater } = require("../generateDailyReport.js");
+} = require("../../utils/index.js");
+const {
+  dailyDataUpdateBeforeFormater,
+} = require("../../utils/dailyDataUpdateBeforeFormatter.js");
 const { getCompanyInfos } = require("../../utils/getCompanyInfo.js");
 const { getAllDailyReportsFromDb, readData } = require("../../lib/leveldb.js");
-const { generateDailyReport } = require("../../generateReport.js");
+const { generateDailyReport } = require("../../utils/generateReport.js");
 const currentYear = new Date().getFullYear();
 // dailyDataUpdateBeforeFormater();
 
@@ -95,7 +96,14 @@ async function sampleDaily(companyId, date, data) {
     const percent =
       totalAgentTickets > 0 ? (ticketCount * 100) / totalAgentTickets : 0;
     // ✅ Ne push que si l'ID n'est pas vide
-    if (agentId && agentData && agentId.trim() !== "" && agentId && agentData.name.trim() !== "" ) {
+    console.log(agentData);
+    if (
+      agentId &&
+      agentData &&
+      agentId.trim() !== "" &&
+      agentData.name &&
+      agentData.name?.trim() !== ""
+    ) {
       ticketsPerAgent.push({
         id: agentId,
         name: agentData.name,
@@ -190,25 +198,26 @@ async function sampleDaily(companyId, date, data) {
 }
 
 //excution of the programme for fileStorage
-(async () => {
-  const allReports = await getAllDailyReports();
-  //  const allKey = await  getAllDailyReportsFromDb()
-  console.log(allReports);
-  allReports.forEach(async (file) => {
-    const [namePart, datePartWithExt] = file.split(/-(?=\d{2}_\d{2}_\d{4})/);
+// (async () => {
+//   const allReports = await getAllDailyReports();
+//   //  const allKey = await  getAllDailyReportsFromDb()
+//   console.log(allReports);
+//   allReports.forEach(async (file) => {
+//     const [namePart, datePartWithExt] = file.split(/-(?=\d{2}_\d{2}_\d{4})/);
 
-    console.log(datePartWithExt);
-    const date = datePartWithExt.replace(".json", "");
-    const companyId = namePart;
+//     console.log(datePartWithExt);
+//     const date = datePartWithExt.replace(".json", "");
+//     const companyId = namePart;
 
-    const dailyReport = require(`../../reportData/dailyReport/${file}`);
-    const addActvieToReport = await dailyDataUpdateBeforeFormater(dailyReport);
-    sampleDaily(companyId, date, addActvieToReport);
-    //console.dir(addActvieToReport, { depth: null, colors: true });
+//     const dailyReport = require(`../../reportData/dailyReport/${file}`);
+//     const addActvieToReport = await dailyDataUpdateBeforeFormater(dailyReport);
+//     sampleDaily(companyId, date, addActvieToReport);
 
-    //console.log(`Company ID: ${companyId}, Date: ${date}`);
-  });
-})();
+//     //console.dir(addActvieToReport, { depth: null, colors: true });
+
+//     //console.log(`Company ID: ${companyId}, Date: ${date}`);
+//   });
+// })();
 
 //execution of the programme with database
 // (async () => {
@@ -235,3 +244,7 @@ async function sampleDaily(companyId, date, data) {
 //   }
 // })();
 //sampleDaily(dailyReport);
+
+module.exports = {
+  sampleDaily,
+};

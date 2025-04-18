@@ -6,15 +6,16 @@ const {
   formatTime,
   convertDate,
   getAllDailyReports,
-} = require("../../utils/utils.js"); //
+} = require("../../utils/index.js"); //
 const moment = require("moment");
-const { saveToFile } = require("../../utils/utils.js");
+const { saveToFile } = require("../../utils/index.js");
 const currentDate = moment().format("DD_MM_YYYY");
-const dailyReport = require(`../../reportData/15_04_2025-final.json`);
 const { getCompanyInfos } = require("../../utils/getCompanyInfo.js");
 
-const { generateDailyReport } = require("../../generateReport.js");
-const { dailyDataUpdateBeforeFormater } = require("../generateDailyReport.js");
+const { generateDailyReport } = require("../../utils/generateReport.js");
+const {
+  dailyDataUpdateBeforeFormater,
+} = require("../../utils/dailyDataUpdateBeforeFormatter.js");
 const currentYear = new Date().getFullYear();
 
 async function sampleMonoDaily(companyId, date, data) {
@@ -55,9 +56,9 @@ async function sampleMonoDaily(companyId, date, data) {
       total: totalNoShow,
       percent: parseFloat(noShowPercent.toFixed(2)),
     },
-    avgWaiting: formatTime(avgWaiting,true),
-    avgService: formatTime(avgService,true),
-    avgTime: formatTime(avgTime,true),
+    avgWaiting: formatTime(avgWaiting, true),
+    avgService: formatTime(avgService, true),
+    avgTime: formatTime(avgTime, true),
     total: totalCount,
   };
 
@@ -109,10 +110,10 @@ async function sampleMonoDaily(companyId, date, data) {
     const total = agent.total || 0;
     const handlingTime = agent.handlingTime || 0;
     const name = agent.name || "";
-  console.log(name)
+    console.log(name);
     // 🔴 Ignorer les agents sans id ou sans nom
     if (!agentId || !name) continue;
-  
+
     agentPerformances.push({
       id: agentId,
       ticket: {
@@ -125,7 +126,6 @@ async function sampleMonoDaily(companyId, date, data) {
       avgService: formatTime(total ? handlingTime / total : 0, true),
     });
   }
-  
 
   // console.log(agentPerformances);
   const finalReport = {
@@ -173,7 +173,7 @@ async function sampleMonoDaily(companyId, date, data) {
   const finalReports = [];
   //console.log(Adminsreceivers)
   //console.log("*******************************");
-   console.log(managersreceivers);
+  console.log(managersreceivers);
   managersreceivers.forEach((admin) => {
     const personalizedReport = {
       ...finalReport, // copie du modèle de base
@@ -202,19 +202,23 @@ async function sampleMonoDaily(companyId, date, data) {
 }
 
 //excution of the programme
-(async () => {
-  const allReports = await getAllDailyReports();
-  allReports.forEach(async (file) => {
-    const [namePart, datePartWithExt] = file.split(/-(?=\d{2}_\d{2}_\d{4})/);
-    const date = datePartWithExt.replace(".json", "");
-    const companyId = namePart;
+// (async () => {
+//   const allReports = await getAllDailyReports();
+//   allReports.forEach(async (file) => {
+//     const [namePart, datePartWithExt] = file.split(/-(?=\d{2}_\d{2}_\d{4})/);
+//     const date = datePartWithExt.replace(".json", "");
+//     const companyId = namePart;
 
-    const dailyReport = require(`../../reportData/dailyReport/${file}`);
+//     const dailyReport = require(`../../reportData/dailyReport/${file}`);
 
-    const addActvieToReport = await dailyDataUpdateBeforeFormater(dailyReport);
-    sampleMonoDaily(companyId, date, addActvieToReport);
-    //console.dir(addActvieToReport, { depth: null, colors: true });
+//     const addActvieToReport = await dailyDataUpdateBeforeFormater(dailyReport);
+//     sampleMonoDaily(companyId, date, addActvieToReport);
+//     //console.dir(addActvieToReport, { depth: null, colors: true });
 
-    //console.log(`Company ID: ${companyId}, Date: ${date}`);
-  });
-})();
+//     //console.log(`Company ID: ${companyId}, Date: ${date}`);
+//   });
+// })();
+
+module.exports = {
+  sampleMonoDaily,
+};

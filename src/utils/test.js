@@ -15,8 +15,8 @@ const smartQueue = "XaD25rPCvp";
 const service = "CLZfDXQMvV";
 const status = "NOSHOW";
 const axios = require("axios");
-const { getDailyReportDataFromDb } = require("./utils");
-const { getAllDailyReportsFromDb } = require("../lib/leveldb");
+const { getDailyReportDataFromDb } = require(".");
+const { getAllDailyReportsFromDb } = require("../../lib/leveldb");
 //const { getTimes } = require("./utils");
 require("dotenv").config();
 // axios
@@ -217,10 +217,8 @@ require("dotenv").config();
 // const path = require("path");
 // const { getAllDailyReports } = require("./utils");
 
-
-
 (async () => {
-  const allKey = await  getAllDailyReportsFromDb()
+  const allKey = await getAllDailyReportsFromDb();
 
   console.log(allKey);
 })();

@@ -172,7 +172,7 @@ async function getTimes(ticketId, company) {
 
 async function getAllDailyReports() {
   try {
-    const directoryPath = path.join(__dirname, "../reportData", "dailyReport");
+    const directoryPath = path.join(__dirname, "../../reportData", "dailyReport");
     const files = fs.readdir(directoryPath);
     return files;
   } catch (err) {

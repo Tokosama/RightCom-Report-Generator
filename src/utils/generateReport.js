@@ -1,4 +1,4 @@
-const TEMPLATES = require("./templates.json");
+const TEMPLATES = require("../constants/templates.json");
 
 const axios = require("axios");
 async function generateDailyReport(template, data) {
